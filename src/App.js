@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // import GifDisplay from './GifDisplay';
 // import randomizer from './randomizer';
 import './styles/styles.scss'
+import SearchBar from './SearchBar';
 
 // Components
 //   - 2 Components
@@ -30,6 +31,7 @@ class App extends Component {
     return (
       <div className="App">
         <h1>bullshit title</h1>
+        <SearchBar />
       </div>
     );
   }
