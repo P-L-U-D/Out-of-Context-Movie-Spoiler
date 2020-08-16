@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-// import SearchBar from './SearchBar';
-// import GifDisplay from './GifDisplay';
 // import randomizer from './randomizer';
+import SearchBar from './SearchBar';
+import GifDisplay from './GifDisplay';
 import './styles/styles.scss'
 import SearchBar from './SearchBar';
+
 
 // Components
 //   - 2 Components
