@@ -14,7 +14,7 @@ class GifDisplay extends Component {
     componentDidMount() {
         const apiCall = (keyword) => {
             return axios({
-                    url: 'https://ap.giphy.com/v1/gifs/translate',
+                    url: 'https://api.giphy.com/v1/gifs/translate',
                     method: 'GET',
                     dataResponse: 'json',
                     params: {
@@ -24,8 +24,8 @@ class GifDisplay extends Component {
                 })
         } 
 
-        const getGif = async () => {
-            const [gif1, gif2, gif3] = await Promise.all([apiCall('bears'), apiCall('beats'), apiCall('battlestar galactica')])
+        const getGif = async (keyword1, keyword2, keyword3) => {
+            const [gif1, gif2, gif3] = await Promise.all([apiCall(keyword1), apiCall(keyword2), apiCall(keyword3)])
 
             const gifs = []
             
@@ -37,7 +37,7 @@ class GifDisplay extends Component {
             })
         } 
 
-        getGif().catch(() => {
+        getGif('bears', 'beats', 'battlestar galactica').catch(() => {
             this.setState({
                 errorMessage: 'I am so sorry, but no gifs for you right now. I am sick.'
             })
