@@ -29,7 +29,10 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>bullshit title</h1>
+        <h1>Out of Context Spoiler</h1>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptas delectus maiores ea aspernatur inventore enim atque saepe, labore ex nostrum sapiente vero ipsum dolore molestias a dolorum accusantium ducimus ab nulla deserunt sint obcaecati! Similique velit minus veritatis libero, dolor numquam perspiciatis maxime harum laborum, quae fuga consequatur, veniam doloribus!</p>
+        <input type="text"/>
+        <button>Find gifs, idiot!</button>
       </div>
     );
   }
