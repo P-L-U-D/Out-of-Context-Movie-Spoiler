@@ -1,0 +1,74 @@
+$medium-blue: #6b6eec;
+$light-gray: #f9f0f1;
+$black: #171312;
+$dark-blue: #141640;
+$aqua: #8ef9f4;
+$yellow: #f4e04d;
+
+$header-font: 'Kanit', sans-serif;
+$body-font: 'Lato', sans-serif;
+
+html {
+   background: $medium-blue;
+   font-size: 125%;
+}
+
+.test {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   h1 {
+      background: $dark-blue;
+      color: $light-gray;
+      font-family: $header-font;
+      padding: 20px;
+      width: 100%;
+      text-align: center;
+   }
+
+   p, input {
+      color: $black;
+      font-family: $body-font;
+      background: $light-gray;
+      padding: 10px;
+      text-align: center;
+   }
+
+   p {
+      line-height: 1.4rem;
+      font-weight: 400;
+   }
+
+   button {
+      background-color: $aqua;
+      border: 2px solid $dark-blue;
+      border-radius: 5px;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin: 10px;
+      transition: background .3s;
+
+      &:hover, &:focus {
+         background-color: $yellow;
+         transition: background .3s;
+         
+      }
+   }
+
+   input {
+      padding: 20px;
+      border-radius: 3px;
+      border: 1px solid $dark-blue;
+      background: $dark-blue;
+      color: $light-gray;
+      width: 100%;
+      text-align: center;
+      transition: color .3s, background .3s;
+
+      &:focus, &:hover {
+         background: $yellow;
+         color: $black;
+         transition: color .3s, background .3s;
+      }
+   }
+}
