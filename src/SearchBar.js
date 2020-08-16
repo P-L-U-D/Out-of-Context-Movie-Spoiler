@@ -13,8 +13,6 @@ import axios from 'axios';
 //         // ERROT CATCH: NO NUMBERS! people work the regex magic
 
 
-
-
 class SearchBar extends Component {
     constructor() {
         super();
@@ -27,6 +25,8 @@ class SearchBar extends Component {
             userInput: ""
         }
     }
+
+
     getMovie = (event) => {
         event.preventDefault();
         // API CALL 1: movie search based on user's search 
@@ -43,7 +43,7 @@ class SearchBar extends Component {
             }
         })
         .then((res) => {
-            // const movieRes = res.data.results;
+            console.log(res.data.results);
             let popularity = 0
 
             let movieObject;
@@ -55,6 +55,22 @@ class SearchBar extends Component {
                 }
             })
 
+            //API call 2, return keywords based on query search from API call 1
+            axios({
+                url: `https://api.themoviedb.org/3/movie/${movieObject.id}/keywords?`,
+                params: {
+                    api_key: 'b588f737df1d6878d6133a1a7e0bface',
+                }
+            })
+            .then((res) => {
+                const keywordID = res.data.keywords
+            
+                this.setState({
+                    keywordSearch: keywordID
+                })
+                console.log(keywordID);
+            })
+            
 
             this.setState({
                 movieSearch: movieObject
@@ -63,6 +79,7 @@ class SearchBar extends Component {
         }).catch(error => {
             console.log('something went wrong');
         })
+
     }
 
 
@@ -88,21 +105,3 @@ class SearchBar extends Component {
 
 export default SearchBar;
 
-
-
-
-//API call 2, return keywords based on query search from API call 1
-// axios({
-//     url: `https://api.themoviedb.org/3/movie/75780/keywords?`,
-//     params: {
-//         api_key: 'b588f737df1d6878d6133a1a7e0bface',
-//     }
-// })
-// .then((res) => {
-//     const keywordID = res.data.keywords
-
-//     this.setState({
-//         keywordSearch: keywordID
-//     })
-//     console.log(keywordID);
-// })
