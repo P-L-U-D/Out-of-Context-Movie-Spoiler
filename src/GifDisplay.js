@@ -59,7 +59,8 @@ class GifDisplay extends Component {
         // include a back button that returns user to search bar "home page" 
         return (
             <div className="wrapper">
-                <h2>{this.props.movieTitle}</h2>
+              <h2>{this.props.movieTitle}</h2>
+              <div className="gif-box">
                 {this.state.gifs.map(items => {
                     return (
                         <div className="gif-container" key={items.id}>
@@ -68,6 +69,7 @@ class GifDisplay extends Component {
                     )
                 })}
                 {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
+                </div>
             </div>
         )
     }

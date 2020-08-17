@@ -108,6 +108,7 @@ class SearchBar extends Component {
     
 
     handleUserInput = (event) => {
+        event.preventDefault();
         this.setState({
             userInput: event.target.value
         })
@@ -154,7 +155,7 @@ class SearchBar extends Component {
                 <form onSubmit={this.getMovie} action="">
                     <label htmlFor=""></label>
                     <input onChange={this.handleUserInput} type="text"
-                        placeholder="e.g. Fight Club"
+                        placeholder="Type a movie"
                         id="" required />
                     <button type="submit">Search</button>
                 </form>
