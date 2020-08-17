@@ -45,7 +45,7 @@ html {
       border-radius: 5px;
       padding: 10px 20px;
       cursor: pointer;
-      margin: 10px;
+      margin-top: 10px;
       transition: background .3s;
 
       &:hover, &:focus {
@@ -61,7 +61,7 @@ html {
       border: 1px solid $dark-blue;
       background: $dark-blue;
       color: $light-gray;
-      width: 100%;
+
       text-align: center;
       transition: color .3s, background .3s;
 
@@ -71,4 +71,14 @@ html {
          transition: color .3s, background .3s;
       }
    }
+}
+
+
+h1{
+   font-size: calc(1.5rem + 2vw);
+   margin-top:0;
+}
+
+h3{
+   font-weight:400;
 }
