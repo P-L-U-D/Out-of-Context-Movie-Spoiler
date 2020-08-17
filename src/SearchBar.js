@@ -104,6 +104,7 @@ class SearchBar extends Component {
     
 
     handleUserInput = (event) => {
+        event.preventDefault();
         this.setState({
             userInput: event.target.value
         })
