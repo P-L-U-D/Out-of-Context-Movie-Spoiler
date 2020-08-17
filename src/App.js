@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 // import randomizer from './randomizer';
 import SearchBar from './SearchBar';
-import GifDisplay from './GifDisplay';
 import './styles/styles.scss'
-import SearchBar from './SearchBar';
 
 
 // Components
@@ -21,19 +19,21 @@ import SearchBar from './SearchBar';
 
 class App extends Component {
   // MVP: Need two views:
-    // Homepage: Title, instructions
-    // View 1: Search Bar
-      // part of the homepage, just a large text input
-    // View 2: Giphy Display
-      // branches off homepage, instructions are hidden and search bar is small and moved
-      // gif display takes front and center
+  // Homepage: Title, instructions
+  // View 1: Search Bar
+  // part of the homepage, just a large text input
+  // View 2: Giphy Display
+  // branches off homepage, instructions are hidden and search bar is small and moved
+  // gif display takes front and center
 
   render() {
     return (
-      <div className="App">
-        <h1>bullshit title</h1>
+      <div className="test">
+        <h1>Out of Context Spoiler</h1>
+
         <SearchBar />
       </div>
+
     );
   }
 }
