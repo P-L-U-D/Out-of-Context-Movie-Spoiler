@@ -59,6 +59,7 @@ class GifDisplay extends Component {
         // include a back button that returns user to search bar "home page" 
         return (
             <div className="wrapper">
+                <h2>{this.props.movieTitle}</h2>
                 {this.state.gifs.map(items => {
                     return (
                         <div className="gif-container" key={items.id}>

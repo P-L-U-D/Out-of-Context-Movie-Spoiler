@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import GifDisplay from './GifDisplay';
 import randomThree from './randomizer';
 import axios from 'axios';
@@ -21,30 +21,15 @@ class SearchBar extends Component {
         super();
         this.state = {
             movieSearch: [],
+            backupOptions: [],
             movieID: [],
             keywordSearch: [],
             moviedbAPI: 'b588f737df1d6878d6133a1a7e0bface',
             giphyAPI: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
-            userInput: ""
+            userInput: "", 
+            toggleBackups: false
         }
     }
-
-    // randomIndex = (array) => {
-    //     const index = Math.floor(Math.random() * array.length);
-    //     return array[index]
-    // }
-
-    // randomThree = (array) => {
-    //     let one = this.randomIndex(array);
-    //     let two = this.randomIndex(array);
-    //     let three = this.randomIndex(array);
-    //     if (one === two || one === three) { one = this.randomIndex(array) }
-    //     if (two === one || two === three) { two = this.randomIndex(array) }
-    //     if (three === two || three === one) { three = this.randomIndex(array) }
-    //     const newArray = []
-    //     newArray.push(one, two, three)
-    //     return newArray
-    // }
 
     getMovie = (event) => {
         event.preventDefault();
@@ -62,20 +47,43 @@ class SearchBar extends Component {
             }
         })
         .then((res) => {
-            let popularity = 0
+            console.log(res.data)
 
-            let movieObject;
-            
-            res.data.results.forEach( (i) => {
-                if(i.popularity > popularity) {
-                    movieObject = i
-                    popularity = i.popularity
-                }
+            const match = res.data.results.filter((movie) => {
+                return movie.title === this.state.userInput
             })
+
+            const backupOptions = res.data.results.filter((movie) => {
+                return movie.popularity > 10
+            })
+
+            if (match.length === 1) {
+                this.setState({
+                    movieSearch: match
+                })
+            } else {
+                this.setState({
+                    backupOptions,
+                    movieSearch: [],
+                    keywordSearch: [],
+                    toggleBackups: true
+                })
+            }
+
+            // let popularity = 0
+
+            // let movieObject;
+            
+            // res.data.results.forEach( (i) => {
+            //     if(i.popularity > popularity) {
+            //         movieObject = i
+            //         popularity = i.popularity
+            //     }
+            // })
             
             //API call 2, return keywords based on query search from API call 1
             axios({
-                url: `https://api.themoviedb.org/3/movie/${movieObject.id}/keywords?`,
+                url: `https://api.themoviedb.org/3/movie/${this.state.movieSearch[0].id}/keywords?`,
                 params: {
                     api_key: 'b588f737df1d6878d6133a1a7e0bface',
                 }
@@ -91,13 +99,8 @@ class SearchBar extends Component {
                     keywordSearch: newKeyWords
                 })
                 
-                console.log(newKeyWords);
+                // console.log(newKeyWords);
             })
-            
-            this.setState({
-                movieSearch: movieObject
-            })
-            console.log(movieObject);
         }).catch(error => {
             console.log('something went wrong');
         })
@@ -110,9 +113,41 @@ class SearchBar extends Component {
         })
     }
 
+    backupSelection = (event) => {
+        const chosenMovie = this.state.backupOptions.filter((backup) => {
+            const targetId = parseInt(event.target.id)
+            return backup.id == targetId
+        })
+
+        this.setState({
+            backupOptions: [],
+            toggleBackups: false,
+            movieId: event.target.id,
+            movieSearch: chosenMovie,
+        }, 
+        () => {
+            axios({
+                url: `https://api.themoviedb.org/3/movie/${this.state.movieSearch[0].id}/keywords?`,
+                params: {
+                    api_key: 'b588f737df1d6878d6133a1a7e0bface',
+                }
+            })
+            .then((res) => {
+                const keywordID = res.data.keywords.map((keyword) => {
+                    return keyword.name
+                })
+    
+                const newKeyWords = randomThree(keywordID);
+    
+                this.setState({
+                    keywordSearch: newKeyWords
+                })
+            })
+        })
+    }
+
     render() {
         // Just a search bar (text input)
-        // console.log(this.state.keywordSearch);
         return (
             
             <div>
@@ -123,11 +158,25 @@ class SearchBar extends Component {
                         id="" required />
                     <button type="submit">Search</button>
                 </form>
+                {
+                    this.state.toggleBackups === false
+                    ? null
+                    : <Fragment>
+                        <h2>Sorry, which movie were you looking for?</h2>
+                        {this.state.backupOptions.map((backup) => {
+                            return (
+                                <div key={backup.id} className="backupContainer">
+                                    <img onClick={this.backupSelection} src={`https://image.tmdb.org/t/p/w200/${backup.poster_path}`} alt={`Movie poster for ${backup.title}`} id={backup.id} />
+                                </div>
+                            )
+                        })}
+                    </Fragment>
+                }
 
                 {
-                   this.state.keywordSearch === [] 
-                   ? null 
-                   : <GifDisplay  gifWords={this.state.keywordSearch} gifTest='bear'/>
+                    this.state.keywordSearch === [] 
+                    ? null 
+                    : <GifDisplay movieTitle={this.state.movieSearch.title} gifWords={this.state.keywordSearch} gifTest='bear'/>
                 }
 
             </div>
