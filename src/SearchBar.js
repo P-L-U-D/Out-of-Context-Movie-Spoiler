@@ -111,7 +111,7 @@ class SearchBar extends Component {
 
     render() {
         // Just a search bar (text input)
-        console.log(this.state.keywordSearch);
+        // console.log(this.state.keywordSearch);
         return (
             
             <div>
@@ -126,7 +126,7 @@ class SearchBar extends Component {
                 {
                    this.state.keywordSearch === [] 
                    ? null 
-                   : <GifDisplay gifWords={this.state.keywordSearch}/>
+                   : <GifDisplay  gifWords={this.state.keywordSearch} gifTest='bear'/>
                 }
 
             </div>
