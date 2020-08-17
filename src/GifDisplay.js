@@ -36,8 +36,8 @@ class GifDisplay extends Component {
                 gifs
             })
         } 
-
-        getGif('bears', 'beats', 'battlestar galactica').catch(() => {
+        console.log(this.props.gifWords);
+        getGif('bears', 'beats', 'battle star galactica').catch(() => {
             this.setState({
                 errorMessage: 'I am so sorry, but no gifs for you right now. I am sick.'
             })

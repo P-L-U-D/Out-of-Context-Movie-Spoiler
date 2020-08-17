@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import GifDisplay from './GifDisplay';
 import axios from 'axios';
+
 
 
         
@@ -26,6 +28,22 @@ class SearchBar extends Component {
         }
     }
 
+    randomIndex = (array) => {
+        const index = Math.floor(Math.random() * array.length);
+        return array[index]
+    }
+
+    randomThree = (array) => {
+        let one = this.randomIndex(array);
+        let two = this.randomIndex(array);
+        let three = this.randomIndex(array);
+        if (one === two || one === three) { one = this.randomIndex(array) }
+        if (two === one || two === three) { two = this.randomIndex(array) }
+        if (three === two || three === one) { three = this.randomIndex(array) }
+        const newArray = []
+        newArray.push(one, two, three)
+        return newArray
+    }
 
     getMovie = (event) => {
         event.preventDefault();
@@ -43,18 +61,17 @@ class SearchBar extends Component {
             }
         })
         .then((res) => {
-            console.log(res.data.results);
             let popularity = 0
 
             let movieObject;
-
+            
             res.data.results.forEach( (i) => {
                 if(i.popularity > popularity) {
                     movieObject = i
                     popularity = i.popularity
                 }
             })
-
+            
             //API call 2, return keywords based on query search from API call 1
             axios({
                 url: `https://api.themoviedb.org/3/movie/${movieObject.id}/keywords?`,
@@ -63,15 +80,19 @@ class SearchBar extends Component {
                 }
             })
             .then((res) => {
-                const keywordID = res.data.keywords
-            
-                this.setState({
-                    keywordSearch: keywordID
+                const keywordID = res.data.keywords.map( (keyword) => {
+                    return keyword.name
                 })
-                console.log(keywordID);
+            
+                const newKeyWords = this.randomThree(keywordID);
+
+                this.setState({
+                    keywordSearch: newKeyWords
+                })
+                
+                console.log(newKeyWords);
             })
             
-
             this.setState({
                 movieSearch: movieObject
             })
@@ -79,9 +100,8 @@ class SearchBar extends Component {
         }).catch(error => {
             console.log('something went wrong');
         })
-
     }
-
+    
 
     handleUserInput = (event) => {
         this.setState({
@@ -91,17 +111,32 @@ class SearchBar extends Component {
 
     render() {
         // Just a search bar (text input)
+        console.log(this.state.keywordSearch);
         return (
-            <form onSubmit={this.getMovie} action="">
-                <label htmlFor=""></label>
-                <input onChange={this.handleUserInput} type="text"
-                    placeholder="e.g. Fight Club"
-                    id="" required />
-                <button type="submit">Search</button>
-            </form>
+            
+            <div>
+                <form onSubmit={this.getMovie} action="">
+                    <label htmlFor=""></label>
+                    <input onChange={this.handleUserInput} type="text"
+                        placeholder="e.g. Fight Club"
+                        id="" required />
+                    <button type="submit">Search</button>
+                </form>
+
+                {
+                   this.state.keywordSearch === [] 
+                   ? null 
+                   : <GifDisplay gifWords={this.state.keywordSearch}/>
+                }
+
+            </div>
+        
         )
     }
 }
 
 export default SearchBar;
+
+
+
 
