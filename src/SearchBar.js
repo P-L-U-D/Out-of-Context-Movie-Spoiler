@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import GifDisplay from './GifDisplay';
+import randomThree from './randomizer';
 import axios from 'axios';
 
 
@@ -28,22 +29,22 @@ class SearchBar extends Component {
         }
     }
 
-    randomIndex = (array) => {
-        const index = Math.floor(Math.random() * array.length);
-        return array[index]
-    }
+    // randomIndex = (array) => {
+    //     const index = Math.floor(Math.random() * array.length);
+    //     return array[index]
+    // }
 
-    randomThree = (array) => {
-        let one = this.randomIndex(array);
-        let two = this.randomIndex(array);
-        let three = this.randomIndex(array);
-        if (one === two || one === three) { one = this.randomIndex(array) }
-        if (two === one || two === three) { two = this.randomIndex(array) }
-        if (three === two || three === one) { three = this.randomIndex(array) }
-        const newArray = []
-        newArray.push(one, two, three)
-        return newArray
-    }
+    // randomThree = (array) => {
+    //     let one = this.randomIndex(array);
+    //     let two = this.randomIndex(array);
+    //     let three = this.randomIndex(array);
+    //     if (one === two || one === three) { one = this.randomIndex(array) }
+    //     if (two === one || two === three) { two = this.randomIndex(array) }
+    //     if (three === two || three === one) { three = this.randomIndex(array) }
+    //     const newArray = []
+    //     newArray.push(one, two, three)
+    //     return newArray
+    // }
 
     getMovie = (event) => {
         event.preventDefault();
@@ -84,7 +85,7 @@ class SearchBar extends Component {
                     return keyword.name
                 })
             
-                const newKeyWords = this.randomThree(keywordID);
+                const newKeyWords = randomThree(keywordID);
 
                 this.setState({
                     keywordSearch: newKeyWords
