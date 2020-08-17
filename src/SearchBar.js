@@ -71,7 +71,7 @@ class SearchBar extends Component {
                     popularity = i.popularity
                 }
             })
-            
+            console.log(res.data.results);
             //API call 2, return keywords based on query search from API call 1
             axios({
                 url: `https://api.themoviedb.org/3/movie/${movieObject.id}/keywords?`,
@@ -128,7 +128,6 @@ class SearchBar extends Component {
                    ? null 
                    : <GifDisplay  gifWords={this.state.keywordSearch} gifTest='bear'/>
                 }
-
             </div>
         
         )

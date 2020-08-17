@@ -13,21 +13,19 @@ class GifDisplay extends Component {
     //prevProp access to previous state in relation to this component
     componentDidUpdate(prevProps) {
         //checking if current gif words are same, then don't run function, only run if userInput
-        if (this.props.gifWords === prevProps.gifWords) return;
-        
+        if (this.props.gifWords === prevProps.gifWords)
+        return;
+
         const getGif = async (keyword1, keyword2, keyword3) => {
             const [gif1, gif2, gif3] = await Promise.all([apiCall(keyword1), apiCall(keyword2), apiCall(keyword3)])
-            // console.log('', gif1, gif2, gif3);
             const gifs = []
 
             gifs.push(gif1.data.data, gif2.data.data, gif3.data.data)
 
-            // console.log(gifs)
+
             this.setState({
                 gifs
-            })
-            
-            // console.log(this);
+            })             
         }
         // console.log(this.props.gifWords);
         const apiCall = (keyword) => {
@@ -42,7 +40,6 @@ class GifDisplay extends Component {
             })
         }
         getGif(...this.props.gifWords).catch(() => {
-            // console.log(this);
             this.setState({
                 errorMessage: 'I am so sorry, but no gifs for you right now. I am sick.'
             })
