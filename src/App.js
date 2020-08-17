@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 // import randomizer from './randomizer';
 import SearchBar from './SearchBar';
-import GifDisplay from './GifDisplay';
 import './styles/styles.scss'
 
 
@@ -29,14 +28,12 @@ class App extends Component {
 
   render() {
     return (
-      <div className="test">
-        <h1>Out of Context Spoiler</h1>
-        {/* <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Voluptas delectus maiores ea aspernatur inventore enim atque saepe, labore ex nostrum sapiente vero ipsum dolore molestias a dolorum accusantium ducimus ab nulla deserunt sint obcaecati! Similique velit minus veritatis libero, dolor numquam perspiciatis maxime harum laborum, quae fuga consequatur, veniam doloribus!</p>
-        <input type="text"/>
-        <button>Find gifs, idiot!</button> */}
-        <SearchBar />
-        <GifDisplay />
-      </div>
+        <div className="test">
+          <h1>Out of Context Spoiler</h1>
+
+          <SearchBar />
+        </div>
+      
     );
   }
 }
