@@ -26,12 +26,12 @@ class GifDisplay extends Component {
 
         const getGif = async (keyword1, keyword2, keyword3) => {
             const [gif1, gif2, gif3] = await Promise.all([apiCall(keyword1), apiCall(keyword2), apiCall(keyword3)])
-
+            // console.log('', gif1, gif2, gif3);
             const gifs = []
 
             gifs.push(gif1.data.data, gif2.data.data, gif3.data.data)
 
-            console.log(gifs)
+            // console.log(gifs)
             this.setState({
                 gifs
             })
@@ -43,7 +43,6 @@ class GifDisplay extends Component {
                 errorMessage: 'I am so sorry, but no gifs for you right now. I am sick.'
             })
         });
-
 
         // API CALL 3: return 3 gifs based of the keywords we get from API 2
         // save gifs and display onto the page

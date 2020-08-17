@@ -4,7 +4,6 @@ import axios from 'axios';
 
 
 
-
 //         // randomly pick 3 words and save
 //         // wrap calls in async fucnction? use await to get response from API 1 before we call API 2
 //         // on successful return of API 2, pass saved keywords to GifDisplay component & trigger view switch
@@ -101,7 +100,7 @@ class SearchBar extends Component {
                 console.log('something went wrong');
             })
     }
-
+    
 
     handleUserInput = (event) => {
         this.setState({
