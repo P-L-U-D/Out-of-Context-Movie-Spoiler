@@ -57,9 +57,11 @@ class SearchBar extends Component {
             }
         })
         .then((res) => {
+           
             const match = res.data.results.filter((movie) => {
                 return movie.title === this.state.userInput
-            })
+
+            }) 
 
             const backupOptions = res.data.results.filter((movie) => {
                 return movie.popularity > 10
@@ -98,6 +100,9 @@ class SearchBar extends Component {
                 const keywordID = res.data.keywords.map( (keyword) => {
                     return keyword.name
                 })
+                this.setState({
+                    userInput: ""
+                })
             
                 const newKeyWords = randomThree(keywordID);
                 
@@ -131,6 +136,7 @@ class SearchBar extends Component {
             toggleGifDisplay: true,
             movieId: event.target.id,
             movieSearch: chosenMovie,
+            userInput: ""
         }, 
         () => {
             axios({
@@ -164,14 +170,16 @@ class SearchBar extends Component {
     
 
     
+
+    
     render() {
         // Just a search bar (text input)
         return (
             
             <div className="wrapper" >
-                <form onSubmit={this.getMovie} action="">
+                <form onSubmit={this.getMovie}  action="">
                     <label htmlFor=""></label>
-                    <input onChange={this.handleUserInput} type="text"
+                    <input value={this.state.userInput} onChange={this.handleUserInput} type="text"
                         placeholder="Type a movie"
                         id="" required />
                     <button type="submit">Search</button>
