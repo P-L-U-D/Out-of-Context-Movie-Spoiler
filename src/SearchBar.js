@@ -104,10 +104,10 @@ class SearchBar extends Component {
                 this.setState({
                     keywordSearch: newKeyWords,
                 })
-                console.log(newKeyWords);
+                console.log(keywordID);
             }) 
         }).catch(error => {
-            console.log('something went wrong');
+            
         })
     }
     
@@ -140,10 +140,10 @@ class SearchBar extends Component {
                 }
             })
             .then((res) => {
+                console.log(res.data.keywords);
                 const keywordID = res.data.keywords.map((keyword) => {
                     return keyword.name
                 })
-    
                 const newKeyWords = randomThree(keywordID);
     
                 
@@ -160,8 +160,6 @@ class SearchBar extends Component {
             })
         })
     }
-
-    
 
     
     render() {
@@ -207,11 +205,7 @@ class SearchBar extends Component {
 
 export default SearchBar;
 
-// if (keywordSearch === undefined || keywordSearch.length == 0) {
-//     alert('There are no gifs for this movie')
-// } else {
-//     return;
-// }
+
 
 
 

@@ -29,7 +29,7 @@ class GifDisplay extends Component {
             
             // console.log(this);
         }
-        // console.log(this.props.gifWords);
+        console.log(this.props.gifWords);
         const apiCall = (keyword) => {
             return axios({
                 url: 'https://api.giphy.com/v1/gifs/translate',
@@ -74,7 +74,5 @@ class GifDisplay extends Component {
         )
     }
 }
-
-
 
 export default GifDisplay;
