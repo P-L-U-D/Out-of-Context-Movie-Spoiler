@@ -57,9 +57,11 @@ class SearchBar extends Component {
             }
         })
         .then((res) => {
+           
             const match = res.data.results.filter((movie) => {
                 return movie.title === this.state.userInput
-            })
+
+            }) 
 
             const backupOptions = res.data.results.filter((movie) => {
                 return movie.popularity > 10
@@ -98,6 +100,9 @@ class SearchBar extends Component {
                 const keywordID = res.data.keywords.map( (keyword) => {
                     return keyword.name
                 })
+                this.setState({
+                    userInput: ""
+                })
             
                 const newKeyWords = randomThree(keywordID);
                 
@@ -131,6 +136,7 @@ class SearchBar extends Component {
             toggleGifDisplay: true,
             movieId: event.target.id,
             movieSearch: chosenMovie,
+            userInput: ""
         }, 
         () => {
             axios({
@@ -144,19 +150,14 @@ class SearchBar extends Component {
                 const keywordID = res.data.keywords.map((keyword) => {
                     return keyword.name
                 })
+                this.setState({
+                    keywordID
+                })
                 const newKeyWords = randomThree(keywordID);
     
-                
-                if (keywordID === undefined || keywordID.length === 0) {
-                    this.setState({
-                        errorMessage: 'No Gifs for this movie',
-                        toggleBackups: true
-                    })
-                } else {
-                    this.setState({
-                        keywordSearch: newKeyWords
-                    })
-                }
+                this.setState({
+                    keywordSearch: newKeyWords
+                })
             })
         })
     }
@@ -167,9 +168,9 @@ class SearchBar extends Component {
         return (
             
             <div className="wrapper" >
-                <form onSubmit={this.getMovie} action="">
+                <form onSubmit={this.getMovie}  action="">
                     <label htmlFor=""></label>
-                    <input onChange={this.handleUserInput} type="text"
+                    <input value={this.state.userInput} onChange={this.handleUserInput} type="text"
                         placeholder="Type a movie"
                         id="" required />
                     <button type="submit">Search</button>
@@ -194,7 +195,7 @@ class SearchBar extends Component {
                 {
                     this.state.toggleGifDisplay === false
                     ? null 
-                    : <GifDisplay movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/>
+                    : <GifDisplay keywordID={this.state.keywordID} movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/>
                 }
 
             </div>

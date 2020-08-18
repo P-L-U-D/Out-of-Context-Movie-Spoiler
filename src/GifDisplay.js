@@ -41,12 +41,39 @@ class GifDisplay extends Component {
                 }
             })
         }
-        getGif(...this.props.gifWords).catch(() => {
-            // console.log(this);
-            this.setState({
-                errorMessage: 'I am so sorry, but no gifs for you right now. I am sick.'
-            })
-        });
+
+        if(this.props.keywordID.length === 1 || this.props.keywordID.length === 2 || this.props.keywordID === undefined || this.props.keywordID.length === 0) {
+            const newGif = (keyword) => {
+                return axios({
+                url: 'https://api.giphy.com/v1/gifs/search',
+                method: 'GET',
+                dataResponse: 'json',
+                    params: {
+                        api_key: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
+                        q: keyword,
+                        limit: 3
+                    }
+                })
+                .then( (result) => {
+                    console.log(result);
+                    this.setState({
+                        gifs: result.data.data
+                    })
+                })
+            }  
+            newGif(this.props.movieTitle);
+        
+        } 
+            else {
+                return getGif(...this.props.gifWords).catch(() => {
+                this.setState({
+                    errorMessage: 'I am so sorry, but no gifs for you right now. I am sick.'
+                })
+            });
+        }
+
+        
+
         // console.log(this.props.gifTest);
 
         // API CALL 3: return 3 gifs based of the keywords we get from API 2
@@ -74,5 +101,6 @@ class GifDisplay extends Component {
         )
     }
 }
+
 
 export default GifDisplay;
