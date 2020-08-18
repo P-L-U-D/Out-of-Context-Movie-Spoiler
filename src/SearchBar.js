@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import GifDisplay from './GifDisplay';
+import randomThree from './randomizer';
 import axios from 'axios';
+
 
 
 
@@ -18,34 +20,24 @@ class SearchBar extends Component {
     constructor() {
         super();
         this.state = {
+            errorMessage: '',
             movieSearch: [],
+            backupOptions: [],
             movieID: [],
             keywordSearch: [],
             moviedbAPI: 'b588f737df1d6878d6133a1a7e0bface',
             giphyAPI: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
-            userInput: ""
+            userInput: "",
+            toggleBackups: false
         }
-    }
-
-    randomIndex = (array) => {
-        const index = Math.floor(Math.random() * array.length);
-        return array[index]
-    }
-
-    randomThree = (array) => {
-        let one = this.randomIndex(array);
-        let two = this.randomIndex(array);
-        let three = this.randomIndex(array);
-        if (one === two || one === three) { one = this.randomIndex(array) }
-        if (two === one || two === three) { two = this.randomIndex(array) }
-        if (three === two || three === one) { three = this.randomIndex(array) }
-        const newArray = []
-        newArray.push(one, two, three)
-        return newArray
     }
 
     getMovie = (event) => {
         event.preventDefault();
+        this.setState({
+            toggleBackups: false,
+            keywordSearch: []
+        })
         // API CALL 1: movie search based on user's search 
         // return the MovieID (also have access to movie details)
         axios({
@@ -60,20 +52,40 @@ class SearchBar extends Component {
             }
         })
             .then((res) => {
-                let popularity = 0
+                console.log(res.data)
 
-                let movieObject;
-
-                res.data.results.forEach((i) => {
-                    if (i.popularity > popularity) {
-                        movieObject = i
-                        popularity = i.popularity
-                    }
+                const match = res.data.results.filter((movie) => {
+                    return movie.title === this.state.userInput
                 })
+
+                const backupOptions = res.data.results.filter((movie) => {
+                    return movie.popularity > 10
+                })
+
+                if (match.length === 1) {
+                    this.setState({
+                        movieSearch: match
+                    })
+                } else if (match.length === 0 && backupOptions.length === 0) {
+                    this.setState({
+                        errorMessage: 'That doesn\'t seem to be a movie. Why don\'t you try another one?',
+                        movieSearch: [],
+                        keywordSearch: [],
+                        toggleBackups: true
+                    })
+                } else {
+                    this.setState({
+                        errorMessage: 'Sorry, which movie were you looking for?',
+                        backupOptions,
+                        movieSearch: [],
+                        keywordSearch: [],
+                        toggleBackups: true
+                    })
+                }
 
                 //API call 2, return keywords based on query search from API call 1
                 axios({
-                    url: `https://api.themoviedb.org/3/movie/${movieObject.id}/keywords?`,
+                    url: `https://api.themoviedb.org/3/movie/${this.state.movieSearch[0].id}/keywords?`,
                     params: {
                         api_key: 'b588f737df1d6878d6133a1a7e0bface',
                     }
@@ -83,48 +95,92 @@ class SearchBar extends Component {
                             return keyword.name
                         })
 
-                        const newKeyWords = this.randomThree(keywordID);
+                        const newKeyWords = randomThree(keywordID);
 
                         this.setState({
                             keywordSearch: newKeyWords
                         })
-
-                        console.log(newKeyWords);
                     })
-
-                this.setState({
-                    movieSearch: movieObject
-                })
-                console.log(movieObject);
             }).catch(error => {
                 console.log('something went wrong');
             })
     }
-    
+
 
     handleUserInput = (event) => {
+        event.preventDefault();
         this.setState({
             userInput: event.target.value
         })
     }
 
+    backupSelection = (event) => {
+        const chosenMovie = this.state.backupOptions.filter((backup) => {
+            const targetId = parseInt(event.target.id)
+            return backup.id === targetId
+        })
+
+        this.setState({
+            backupOptions: [],
+            toggleBackups: false,
+            movieId: event.target.id,
+            movieSearch: chosenMovie,
+        },
+            () => {
+                axios({
+                    url: `https://api.themoviedb.org/3/movie/${this.state.movieSearch[0].id}/keywords?`,
+                    params: {
+                        api_key: 'b588f737df1d6878d6133a1a7e0bface',
+                    }
+                })
+                    .then((res) => {
+                        const keywordID = res.data.keywords.map((keyword) => {
+                            return keyword.name
+                        })
+
+                        const newKeyWords = randomThree(keywordID);
+
+                        this.setState({
+                            keywordSearch: newKeyWords
+                        })
+                    })
+            })
+    }
+
     render() {
         // Just a search bar (text input)
-        // console.log(this.state.keywordSearch);
         return (
 
             <div>
                 <form onSubmit={this.getMovie} action="">
-                    <label htmlFor="search-bar"></label>
+                    <label htmlFor=""></label>
                     <input onChange={this.handleUserInput} type="text"
-                        placeholder="e.g. Fight Club"
+                        placeholder="Type a movie"
                         id="" required />
                     <button type="submit">Search</button>
                 </form>
+                {
+                    this.state.toggleBackups === false
+                        ? null
+                        : <Fragment>
+                            <h2>{this.state.errorMessage}</h2>
+                            {this.state.backupOptions.map((backup) => {
+                                return (
+                                    <div key={backup.id} className="backupContainer">
+                                        <img onClick={this.backupSelection} src={`https://image.tmdb.org/t/p/w200/${backup.poster_path}`} alt={`Movie poster for ${backup.title}`} id={backup.id} />
+                                    </div>
+                                )
+                            })}
+                            <form>
+                                <button>Start Over</button>
+                            </form>
+                        </Fragment>
+                }
 
                 {
-
-                    <GifDisplay gifWords={this.state.keywordSearch} />
+                    this.state.keywordSearch === []
+                        ? null
+                        : <GifDisplay movieTitle={this.state.movieSearch.title} gifWords={this.state.keywordSearch} gifTest='bear' />
                 }
 
             </div>
