@@ -1,3 +1,15 @@
+.gif-display {
+    h2 {
+        text-align: center;
+        background: $dark-blue;
+        color: $light-gray;
+        width: 50%;
+        margin: 45px auto 0px auto;
+        padding: 15px 0;
+        border-radius: 3px;
+    }
+}
+
 .gif-box{
     padding-top:20px;
     display:flex;

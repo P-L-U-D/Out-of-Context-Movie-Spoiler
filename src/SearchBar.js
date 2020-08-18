@@ -32,10 +32,14 @@ class SearchBar extends Component {
         }
     }
 
+    
+
     getMovie = (event) => {
         event.preventDefault();
         this.setState({
             toggleBackups: false,
+            toggleGifDisplay: false,
+            backupOptions: [],
             keywordSearch: []
         })
         // API CALL 1: movie search based on user's search 
@@ -123,6 +127,7 @@ class SearchBar extends Component {
         this.setState({
             backupOptions: [],
             toggleBackups: false,
+            toggleGifDisplay: true,
             movieId: event.target.id,
             movieSearch: chosenMovie,
         },
@@ -164,6 +169,11 @@ class SearchBar extends Component {
             })
     }
 
+    
+
+    
+
+    
     render() {
         // Just a search bar (text input)
         return (
@@ -171,7 +181,7 @@ class SearchBar extends Component {
             <div>
                 <form onSubmit={this.getMovie} action="">
                     <label htmlFor=""></label>
-                    <input onChange={this.handleUserInput} type="text"
+                    <input value={this.state.userInput} onChange={this.handleUserInput} type="text"
                         placeholder="Type a movie"
                         id="" required />
                     <button type="submit">Search</button>
