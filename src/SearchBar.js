@@ -32,6 +32,8 @@ class SearchBar extends Component {
         }
     }
 
+    
+
     getMovie = (event) => {
         event.preventDefault();
         this.setState({
@@ -96,11 +98,12 @@ class SearchBar extends Component {
                 })
             
                 const newKeyWords = randomThree(keywordID);
-
+                
                 this.setState({
                     keywordSearch: newKeyWords
                 })
-            })
+                console.log(newKeyWords);
+            }) 
         }).catch(error => {
             console.log('something went wrong');
         })
@@ -140,13 +143,24 @@ class SearchBar extends Component {
     
                 const newKeyWords = randomThree(keywordID);
     
-                this.setState({
-                    keywordSearch: newKeyWords
-                })
+                
+                if (keywordID === undefined || keywordID.length === 0) {
+                    this.setState({
+                        errorMessage: 'No Gifs for this movie',
+                        toggleBackups: true
+                    })
+                } else {
+                    this.setState({
+                        keywordSearch: newKeyWords
+                    })
+                }
             })
         })
     }
 
+    
+
+    
     render() {
         // Just a search bar (text input)
         return (
@@ -191,6 +205,11 @@ class SearchBar extends Component {
 
 export default SearchBar;
 
+// if (keywordSearch === undefined || keywordSearch.length == 0) {
+//     alert('There are no gifs for this movie')
+// } else {
+//     return;
+// }
 
 
 
