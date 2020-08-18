@@ -1,0 +1,21 @@
+.backupOptions {
+   display: flex;
+   flex-wrap: wrap;
+   justify-content: center;
+
+   h2 {
+      text-align: center;
+   }
+
+   .posterContainer {
+      margin: 10px;
+      cursor: pointer;
+      transition: transform .3s;
+
+      &:hover, 
+      &:focus {
+         transform: scale(1.25);
+         transition: transform .3s; 
+      }
+   }
+}
