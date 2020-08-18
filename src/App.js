@@ -29,17 +29,17 @@ class App extends Component {
 
   render() {
     return (
-      <div className="test">
-        {/* <header> */}
-        <h1>Out of Context Spoiler</h1>
-        {/* </header> */}
-        <h3>Search a movie and get gifs!</h3>
-        <SearchBar />
-        <footer>
-          <p className="copyright">Created by Juno College © 2020</p>
-        </footer>
-      </div>
-
+        <div className="test">
+          {/* <header> */}
+            <h1>Out of Context Spoiler</h1>
+          {/* </header> */}
+          <h3>Search a movie and get gifs!</h3>
+          <SearchBar />
+          <footer>
+            <p className="copyright">Created by Juno College © 2020</p>
+          </footer>
+        </div>
+      
     );
   }
 }

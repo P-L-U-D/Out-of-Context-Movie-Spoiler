@@ -1,0 +1,25 @@
+.gif-box{
+    padding-top:20px;
+    display:flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.gif-container img{
+    margin:20px;
+    width:300px;
+    height:300px;
+    box-shadow: 10px 10px 0 black;
+
+}
+
+
+@media(max-width:400px) {
+    .gif-container img{
+        width:200px;
+        height:200px;
+        
+    }
+
+    
+}
