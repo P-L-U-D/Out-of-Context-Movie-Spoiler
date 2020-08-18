@@ -28,7 +28,8 @@ class SearchBar extends Component {
             moviedbAPI: 'b588f737df1d6878d6133a1a7e0bface',
             giphyAPI: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
             userInput: "", 
-            toggleBackups: false
+            toggleBackups: false,
+            toggleGifDisplay: false
         }
     }
 
@@ -38,6 +39,8 @@ class SearchBar extends Component {
         event.preventDefault();
         this.setState({
             toggleBackups: false,
+            toggleGifDisplay: false,
+            backupOptions: [],
             keywordSearch: []
         })
         // API CALL 1: movie search based on user's search 
@@ -54,8 +57,6 @@ class SearchBar extends Component {
             }
         })
         .then((res) => {
-            console.log(res.data)
-
             const match = res.data.results.filter((movie) => {
                 return movie.title === this.state.userInput
             })
@@ -63,10 +64,11 @@ class SearchBar extends Component {
             const backupOptions = res.data.results.filter((movie) => {
                 return movie.popularity > 10
             })
-
+            console.log(match, backupOptions)
             if (match.length === 1) {
                 this.setState({
-                    movieSearch: match
+                    movieSearch: match,
+                    toggleGifDisplay: true
                 })
             } else if (match.length === 0 && backupOptions.length === 0) {
                 this.setState({
@@ -100,7 +102,7 @@ class SearchBar extends Component {
                 const newKeyWords = randomThree(keywordID);
                 
                 this.setState({
-                    keywordSearch: newKeyWords
+                    keywordSearch: newKeyWords,
                 })
                 console.log(newKeyWords);
             }) 
@@ -126,6 +128,7 @@ class SearchBar extends Component {
         this.setState({
             backupOptions: [],
             toggleBackups: false,
+            toggleGifDisplay: true,
             movieId: event.target.id,
             movieSearch: chosenMovie,
         }, 
@@ -165,7 +168,7 @@ class SearchBar extends Component {
         // Just a search bar (text input)
         return (
             
-            <div>
+            <div className="wrapper" >
                 <form onSubmit={this.getMovie} action="">
                     <label htmlFor=""></label>
                     <input onChange={this.handleUserInput} type="text"
@@ -177,24 +180,23 @@ class SearchBar extends Component {
                     this.state.toggleBackups === false
                     ? null
                     : <Fragment>
-                        <h2>{this.state.errorMessage}</h2>
-                        {this.state.backupOptions.map((backup) => {
-                            return (
-                                <div key={backup.id} className="backupContainer">
-                                    <img onClick={this.backupSelection} src={`https://image.tmdb.org/t/p/w200/${backup.poster_path}`} alt={`Movie poster for ${backup.title}`} id={backup.id} />
-                                </div>
-                            )
-                        })}
-                        <form>
-                            <button>Start Over</button>
-                        </form>
+                        <div className="backupOptions">
+                            <h2>{this.state.errorMessage}</h2>
+                            {this.state.backupOptions.map((backup) => {
+                                return (
+                                    <div key={backup.id} className="posterContainer">
+                                        <img onClick={this.backupSelection} src={`https://image.tmdb.org/t/p/w200/${backup.poster_path}`} alt={`Movie poster for ${backup.title}`} id={backup.id} />
+                                    </div>
+                                )
+                            })}
+                        </div>
                     </Fragment>
                 }
 
                 {
-                    this.state.keywordSearch === [] 
+                    this.state.toggleGifDisplay === false
                     ? null 
-                    : <GifDisplay movieTitle={this.state.movieSearch.title} gifWords={this.state.keywordSearch} gifTest='bear'/>
+                    : <GifDisplay movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/>
                 }
 
             </div>
