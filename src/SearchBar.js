@@ -20,6 +20,7 @@ class SearchBar extends Component {
     constructor() {
         super();
         this.state = {
+            errorMessage: '',
             movieSearch: [],
             backupOptions: [],
             movieID: [],
@@ -33,6 +34,10 @@ class SearchBar extends Component {
 
     getMovie = (event) => {
         event.preventDefault();
+        this.setState({
+            toggleBackups: false,
+            keywordSearch: []
+        })
         // API CALL 1: movie search based on user's search 
         // return the MovieID (also have access to movie details)
         axios({
@@ -61,25 +66,22 @@ class SearchBar extends Component {
                 this.setState({
                     movieSearch: match
                 })
+            } else if (match.length === 0 && backupOptions.length === 0) {
+                this.setState({
+                    errorMessage: 'That doesn\'t seem to be a movie. Why don\'t you try another one?',
+                    movieSearch: [],
+                    keywordSearch: [],
+                    toggleBackups: true
+                })
             } else {
                 this.setState({
+                    errorMessage: 'Sorry, which movie were you looking for?',
                     backupOptions,
                     movieSearch: [],
                     keywordSearch: [],
                     toggleBackups: true
                 })
             }
-
-            // let popularity = 0
-
-            // let movieObject;
-            
-            // res.data.results.forEach( (i) => {
-            //     if(i.popularity > popularity) {
-            //         movieObject = i
-            //         popularity = i.popularity
-            //     }
-            // })
             
             //API call 2, return keywords based on query search from API call 1
             axios({
@@ -98,8 +100,6 @@ class SearchBar extends Component {
                 this.setState({
                     keywordSearch: newKeyWords
                 })
-                
-                // console.log(newKeyWords);
             })
         }).catch(error => {
             console.log('something went wrong');
@@ -116,7 +116,7 @@ class SearchBar extends Component {
     backupSelection = (event) => {
         const chosenMovie = this.state.backupOptions.filter((backup) => {
             const targetId = parseInt(event.target.id)
-            return backup.id == targetId
+            return backup.id === targetId
         })
 
         this.setState({
@@ -162,7 +162,7 @@ class SearchBar extends Component {
                     this.state.toggleBackups === false
                     ? null
                     : <Fragment>
-                        <h2>Sorry, which movie were you looking for?</h2>
+                        <h2>{this.state.errorMessage}</h2>
                         {this.state.backupOptions.map((backup) => {
                             return (
                                 <div key={backup.id} className="backupContainer">
@@ -170,6 +170,9 @@ class SearchBar extends Component {
                                 </div>
                             )
                         })}
+                        <form>
+                            <button>Start Over</button>
+                        </form>
                     </Fragment>
                 }
 
