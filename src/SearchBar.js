@@ -64,7 +64,7 @@ class SearchBar extends Component {
             }) 
             //back-up movie options if user's initial input does not exist
             const backupOptions = res.data.results.filter((movie) => {
-                return movie.popularity > 5
+                return movie.popularity > 1
             })
             // console.log(match, backupOptions)
             if (match.length > 1) {
