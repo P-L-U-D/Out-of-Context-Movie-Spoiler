@@ -25,6 +25,7 @@ class SearchBar extends Component {
             backupOptions: [],
             movieID: [],
             keywordSearch: [],
+            keywordResults: [],
             moviedbAPI: 'b588f737df1d6878d6133a1a7e0bface',
             giphyAPI: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
             userInput: "",
@@ -169,11 +170,6 @@ class SearchBar extends Component {
             })
     }
 
-    
-
-    
-
-    
     render() {
         // Just a search bar (text input)
         return (
