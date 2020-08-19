@@ -120,5 +120,4 @@ class GifDisplay extends Component {
     }
 }
 
-
 export default GifDisplay;
