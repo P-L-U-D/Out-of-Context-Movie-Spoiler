@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import firebase from './firebase';
 
 
 class GifDisplay extends Component {
@@ -17,15 +18,19 @@ class GifDisplay extends Component {
         
         const getGif = async (keyword1, keyword2, keyword3) => {
             const [gif1, gif2, gif3] = await Promise.all([apiCall(keyword1), apiCall(keyword2), apiCall(keyword3)])
+            // console.log('', gif1, gif2, gif3);
             const gifs = []
 
             gifs.push(gif1.data.data, gif2.data.data, gif3.data.data)
 
+            // console.log(gifs)
             this.setState({
                 gifs
             })
+            
+            // console.log(this);
         }
-        // API CALL 3: return 3 gifs based of the keywords we get from API 2
+        console.log(this.props.gifWords);
         const apiCall = (keyword) => {
             return axios({
                 url: 'https://api.giphy.com/v1/gifs/translate',
@@ -37,11 +42,10 @@ class GifDisplay extends Component {
                 }
             })
         }
-        //if statement that checks the keyword results for a given movie
+
         if (this.props.keywordResults.length === 1 || this.props.keywordResults.length === 2 || this.props.keywordResults === undefined || this.props.keywordResults.length === 0) {
-            console.log('running with random gif search')
+            console.log('not enough keywords, running with title')
             const newGif = (keyword) => {
-                //if conditions are true run another api call to /search endpoint to retrieve gifs based on movie title rather than movie keywords
                 return axios({
                 url: 'https://api.giphy.com/v1/gifs/search',
                 method: 'GET',
@@ -53,25 +57,35 @@ class GifDisplay extends Component {
                     }
                 })
                 .then( (result) => {
+                    console.log(result);
                     this.setState({
                         gifs: result.data.data
                     })
                 })
             }  
             return newGif(this.props.movieTitle)
-        }   //otherwise display keyword related gifs
+        } 
             else {
-                console.log('running with translate gif endpoint')
+                console.log('random keywords running')
                 return getGif(...this.props.gifWords).catch(() => {
                 this.setState({
                     errorMessage: 'I am so sorry, but no gifs for you right now. I am sick.'
                 })
             });
         }
+
+        
+
+        // console.log(this.props.gifTest);
+
+        // API CALL 3: return 3 gifs based of the keywords we get from API 2
+        // save gifs and display onto the page
     }
 
     render() {
         // display 3 GIFS in horizontal line
+        // MAYBE: include keywords that apply to the gift (in a title attribute or label below)
+        // include a back button that returns user to search bar "home page" 
         return (
             <div className="wrapper gif-display">
                 <h2>{this.props.movieTitle}</h2>
