@@ -25,7 +25,6 @@ class GifDisplay extends Component {
                 gifs
             })
 
-            // console.log(this);
         }
         // API CALL 3: return 3 gifs based of the keywords we get from API 2
         const apiCall = (keyword) => {
@@ -39,6 +38,7 @@ class GifDisplay extends Component {
                 }
             })
         }
+        
         //if statement that checks the keyword results for a given movie
         if (this.props.keywordResults.length === 1 || this.props.keywordResults.length === 2 || this.props.keywordResults === undefined || this.props.keywordResults.length === 0) {
             console.log('running with random gif search')
@@ -57,11 +57,12 @@ class GifDisplay extends Component {
                     .then((result) => {
                         console.log(result);
                         this.setState({
-                            gifs: result.data.data
+                            gifs: result.data.data                       
                         })
                     })
             }
             return newGif(this.props.movieTitle)
+
         }
         else {
             console.log('random keywords running')
@@ -71,14 +72,41 @@ class GifDisplay extends Component {
                 })
             });
         }
-
-
-
         // console.log(this.props.gifTest);
 
         // API CALL 3: return 3 gifs based of the keywords we get from API 2
         // save gifs and display onto the page
     }
+
+
+    // stretch goal: Users can select any individual gif to generate a different one
+    moreGifs = (event, index) => {
+        console.log(event.target.dataset.keyword);
+
+        const chosenGif = event.target.dataset.keyword
+        // console.log(chosenGif);
+
+        axios({
+            url: 'https://api.giphy.com/v1/gifs/random',
+            method: 'GET',
+            dataResponse: 'json',
+            params: {
+                api_key: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
+                tag: chosenGif
+            }
+        }).then((result) => {
+            // console.log(result.data.data);
+
+            const funGif = result.data.data
+            const newGifsArray = [...this.state.gifs]
+            newGifsArray[index] = funGif
+
+            this.setState({
+                gifs: newGifsArray
+            })
+        })
+    }
+
 
     render() {
         // display 3 GIFS in horizontal line
@@ -86,10 +114,10 @@ class GifDisplay extends Component {
             <div className="wrapper gif-display">
                 <h2>{this.props.movieTitle}</h2>
                 <div className="gif-box">
-                    {this.state.gifs.map(items => {
+                    {this.state.gifs.map((items, index) => {
                         return (
                             <div className="gif-container" key={items.id}>
-                                <img src={items?.images?.fixed_width.url} alt="" />
+                                <img onClick={ (event) => this.moreGifs(event, index)} src={items.images.fixed_width.url} data-keyword={this.props.gifWords[index]} alt="" />
                             </div>
                         )
                     })}
@@ -99,6 +127,5 @@ class GifDisplay extends Component {
         )
     }
 }
-
 
 export default GifDisplay;
