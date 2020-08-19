@@ -53,11 +53,12 @@ class SearchBar extends Component {
                 responseType: `json`,
                 api_key: this.state.moviedbAPI,
                 query: `${this.state.userInput}`,
-                include_adult: 'false',
+                // include_adult: 'false',
                 page: 1
             }
         })
             .then((res) => {
+                console.log(res.data.results);
 
                 const match = res.data.results.filter((movie) => {
                     return movie.title === this.state.userInput
@@ -112,6 +113,8 @@ class SearchBar extends Component {
                                 return e
                             }
                         })
+                        console.log(approvedWords);
+
                         const newKeyWords = randomThree(approvedWords);
 
                         this.setState({
@@ -155,6 +158,7 @@ class SearchBar extends Component {
                     }
                 })
                     .then((res) => {
+                        console.log(res.data.keywords);
                         const words = res.data.keywords.map((data) => {
                             return data.name
                         })
@@ -169,6 +173,8 @@ class SearchBar extends Component {
                                 return e
                             }
                         })
+                        console.log(approvedWords);
+
                         const newKeyWords = randomThree(approvedWords);
 
                         this.setState({
