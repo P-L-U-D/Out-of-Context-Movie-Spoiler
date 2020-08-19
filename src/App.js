@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
-// import randomizer from './randomizer';
+import {
+  BrowserRouter as Router,
+  Route, 
+  Link
+} from 'react-router-dom';
 import SearchBar from './SearchBar';
+import Highlights from './Highlights.js'
 import './styles/styles.scss'
 
 
@@ -29,17 +34,28 @@ class App extends Component {
 
   render() {
     return (
-        <div className="test">
-          {/* <header> */}
+      <Router>
+        <main>
+          <header>
             <h1>Out of Context Spoiler</h1>
-          {/* </header> */}
-          <h3>Search a movie and get gifs!</h3>
-          <SearchBar />
+            <nav>
+              <ul>
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/highlights">Highlights</Link>
+                </li>
+              </ul>
+            </nav>
+          </header>
+          <Route exact path="/" component={ SearchBar } />
+          <Route exact path="/highlights" component={ Highlights } />
           <footer>
             <p className="copyright">Created by Juno College © 2020</p>
           </footer>
-        </div>
-      
+        </main>
+      </Router>
     );
   }
 }

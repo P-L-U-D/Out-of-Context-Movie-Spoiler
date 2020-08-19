@@ -195,41 +195,41 @@ class SearchBar extends Component {
     render() {
         // Just a search bar (text input)
         return (
-            
-            <div className="wrapper" >
-                <form onSubmit={this.getMovie}  action="">
-                    <label htmlFor=""></label>
-                    <input value={this.state.userInput} onChange={this.handleUserInput} type="text"
-                        placeholder="Type a movie"
-                        id="" required />
-                    <button type="submit">Search</button>
-                </form>
-                {
-                    //displays the back up movie options to the page
-                    this.state.toggleBackups === false
-                    ? null
-                    : <Fragment>
-                        <div className="backupOptions">
-                            <h2>{this.state.errorMessage}</h2>
-                            {this.state.backupOptions.map((backup) => {
-                                return (
-                                    <div key={backup.id} className="posterContainer">
-                                        <img onClick={this.backupSelection} src={`https://image.tmdb.org/t/p/w200/${backup.poster_path}`} alt={`Movie poster for ${backup.title}`} id={backup.id} />
-                                    </div>
-                                )
-                            })}
-                        </div>
-                    </Fragment>
-                }
-
-                {
-                    this.state.toggleGifDisplay === false
-                    ? null 
-                    : <GifDisplay keywordResults={this.state.keywordResults} movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/>
-                }
-
-            </div>
-        
+            <Fragment>
+                <h3>Type in a movie and get those gifs!</h3>
+                <div className="wrapper" >
+                    <form onSubmit={this.getMovie}  action="">
+                        <label htmlFor=""></label>
+                        <input value={this.state.userInput} onChange={this.handleUserInput} type="text"
+                            placeholder="Type a movie"
+                            id="" required />
+                        <button type="submit">Search</button>
+                    </form>
+                    {
+                        //displays the back up movie options to the page
+                        this.state.toggleBackups === false
+                        ? null
+                        : <Fragment>
+                            <div className="backupOptions">
+                                <h2>{this.state.errorMessage}</h2>
+                                {this.state.backupOptions.map((backup) => {
+                                    return (
+                                        <div key={backup.id} className="posterContainer">
+                                            <img onClick={this.backupSelection} src={`https://image.tmdb.org/t/p/w200/${backup.poster_path}`} alt={`Movie poster for ${backup.title}`} id={backup.id} />
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </Fragment>
+                    }
+    
+                    {
+                        this.state.toggleGifDisplay === false
+                        ? null 
+                        : <GifDisplay keywordResults={this.state.keywordResults} movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/>
+                    }
+                </div>
+            </Fragment>
         )
     }
 }
