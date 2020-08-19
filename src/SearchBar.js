@@ -25,6 +25,7 @@ class SearchBar extends Component {
             backupOptions: [],
             movieID: [],
             keywordSearch: [],
+            keywordResults: [],
             moviedbAPI: 'b588f737df1d6878d6133a1a7e0bface',
             giphyAPI: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
             userInput: "", 
@@ -57,7 +58,7 @@ class SearchBar extends Component {
             }
         })
         .then((res) => {
-           
+            
             const match = res.data.results.filter((movie) => {
                 return movie.title === this.state.userInput
 
@@ -97,19 +98,27 @@ class SearchBar extends Component {
                 }
             })
             .then((res) => {
-                const keywordID = res.data.keywords.map( (keyword) => {
-                    return keyword.name
+                const words = res.data.keywords.map((data) => {
+                    return data.name
                 })
-                this.setState({
-                    userInput: ""
+
+                // Filtering out bad or generic keywords
+                const approvedWords = words.filter((e) => {
+                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(film)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)/g
+
+                    if (badWords.test(e)) {
+                        return false
+                    } else {
+                        return e
+                    }
                 })
-            
-                const newKeyWords = randomThree(keywordID);
-                
+                const newKeyWords = randomThree(approvedWords);
+
                 this.setState({
+                    userInput: '',
                     keywordSearch: newKeyWords,
-                })
-                console.log(keywordID);
+                    keywordResults: words
+                });
             }) 
         }).catch(error => {
             
@@ -146,15 +155,13 @@ class SearchBar extends Component {
                 }
             })
             .then((res) => {
-                console.log(res.data.keywords);
-
                 const words = res.data.keywords.map((data) => {
                     return data.name
                 })
 
                 // Filtering out bad or generic keywords
                 const approvedWords = words.filter((e) => {
-                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(film)|(musical)|(director)|(duringcreditsstinger)/g
+                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(film)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)/g
 
                     if (badWords.test(e)) {
                         return false
@@ -162,17 +169,12 @@ class SearchBar extends Component {
                         return e
                     }
                 })
-
-                console.log(approvedWords);
-
-                const keywordID = res.data.keywords.map((keyword) => {
-                    return keyword.name
-                })
-    
                 const newKeyWords = randomThree(approvedWords);
-    
+
                 this.setState({
-                    keywordSearch: newKeyWords
+                    userInput: '',
+                    keywordSearch: newKeyWords,
+                    keywordResults: words
                 })
             })
         })
@@ -210,7 +212,7 @@ class SearchBar extends Component {
                 {
                     this.state.toggleGifDisplay === false
                     ? null 
-                    : <GifDisplay keywordID={this.state.keywordID} movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/>
+                    : <GifDisplay keywordResults={this.state.keywordResults} movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/>
                 }
 
             </div>

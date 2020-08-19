@@ -42,7 +42,8 @@ class GifDisplay extends Component {
             })
         }
 
-        if(this.props.keywordID.length === 1 || this.props.keywordID.length === 2 || this.props.keywordID === undefined || this.props.keywordID.length === 0) {
+        if (this.props.keywordResults.length === 1 || this.props.keywordResults.length === 2 || this.props.keywordResults === undefined || this.props.keywordResults.length === 0) {
+            console.log('not enough keywords, running with title')
             const newGif = (keyword) => {
                 return axios({
                 url: 'https://api.giphy.com/v1/gifs/search',
@@ -61,10 +62,10 @@ class GifDisplay extends Component {
                     })
                 })
             }  
-            newGif(this.props.movieTitle);
-        
+            return newGif(this.props.movieTitle)
         } 
             else {
+                console.log('random keywords running')
                 return getGif(...this.props.gifWords).catch(() => {
                 this.setState({
                     errorMessage: 'I am so sorry, but no gifs for you right now. I am sick.'
