@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import firebase from './firebaseApp';
+import userSelection from './UserSelection'
+import UserSelection from './UserSelection';
 
 
 class GifDisplay extends Component {
@@ -73,6 +76,7 @@ class GifDisplay extends Component {
             });
         }
 
+
         
 
         // console.log(this.props.gifTest);
@@ -93,7 +97,9 @@ class GifDisplay extends Component {
                     return (
                         <div className="gif-container" key={items.id}>
                             <img src={items?.images?.fixed_width.url} alt="" />
+                            <UserSelection />
                         </div>
+
                     )
                 })}
                 {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
