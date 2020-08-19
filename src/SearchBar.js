@@ -135,7 +135,7 @@ class SearchBar extends Component {
             userInput: event.target.value
         })
     }
-
+    //back-up option function
     backupSelection = (event) => {
         const chosenMovie = this.state.backupOptions.filter((backup) => {
             const targetId = parseInt(event.target.id)
@@ -199,6 +199,7 @@ class SearchBar extends Component {
                     <button type="submit">Search</button>
                 </form>
                 {
+                    //displays the back up movie options to the page
                     this.state.toggleBackups === false
                         ? null
                         : <Fragment>
