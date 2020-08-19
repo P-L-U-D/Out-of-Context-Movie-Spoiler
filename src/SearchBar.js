@@ -109,10 +109,10 @@ class SearchBar extends Component {
                 this.setState({
                     keywordSearch: newKeyWords,
                 })
-                console.log(newKeyWords);
+                console.log(keywordID);
             }) 
         }).catch(error => {
-            console.log('something went wrong');
+            
         })
     }
     
@@ -146,30 +146,21 @@ class SearchBar extends Component {
                 }
             })
             .then((res) => {
+                console.log(res.data.keywords);
                 const keywordID = res.data.keywords.map((keyword) => {
                     return keyword.name
                 })
-    
+                this.setState({
+                    keywordID
+                })
                 const newKeyWords = randomThree(keywordID);
     
-                
-                if (keywordID === undefined || keywordID.length === 0) {
-                    this.setState({
-                        errorMessage: 'No Gifs for this movie',
-                        toggleBackups: true
-                    })
-                } else {
-                    this.setState({
-                        keywordSearch: newKeyWords
-                    })
-                }
+                this.setState({
+                    keywordSearch: newKeyWords
+                })
             })
         })
     }
-
-    
-
-    
 
     
     render() {
@@ -204,7 +195,7 @@ class SearchBar extends Component {
                 {
                     this.state.toggleGifDisplay === false
                     ? null 
-                    : <GifDisplay movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/>
+                    : <GifDisplay keywordID={this.state.keywordID} movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/>
                 }
 
             </div>
@@ -215,11 +206,7 @@ class SearchBar extends Component {
 
 export default SearchBar;
 
-// if (keywordSearch === undefined || keywordSearch.length == 0) {
-//     alert('There are no gifs for this movie')
-// } else {
-//     return;
-// }
+
 
 
 
