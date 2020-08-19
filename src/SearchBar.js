@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react';
 import GifDisplay from './GifDisplay';
 import randomThree from './randomizer';
 import axios from 'axios';
-import UserSelection from './UserSelection';
+// import UserSelection from './UserSelection';
 
 
 
@@ -184,29 +184,6 @@ class SearchBar extends Component {
         })
     }
 
-        // // Firebase is used to set up for user saved result section
-        // userDatabase = () => {
-        //     const dbRef = firebase.database.ref('savedResults');
-        //     dbRef.on('value', (snapshot) => {
-        //         const data = snapshot.val();
-        //         const userResultUpdated = [];
-        //         for (let key in data) {
-        //           userResultUpdated.push({ 
-        //             key: key, 
-        //             data: data[key] 
-        //         })
-        //         }
-        //         this.setState({
-        //           saveResults: userResultUpdated
-        //         })
-        //       })
-              
-        // }
-    
-        // userRemovegif = (dbKey) => {
-        //     const dbRefRemoved = firebase.database().ref('toRead');
-        //     dbRefRemoved.child(dbKey).remove();
-        // }
     
     
 
@@ -247,7 +224,6 @@ class SearchBar extends Component {
                     : <GifDisplay keywordResults={this.state.keywordResults} movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/> 
                     
                }
-            <div><UserSelection /></div>
             </div>
         
         )

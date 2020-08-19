@@ -1,5 +1,5 @@
 import firebase from './firebaseApp';
-import SearchBar from './SearchBar.js'
+import GifDisplay from './GifDisplay.js'
 
 class UserSelection extends Component {
 constructor() {

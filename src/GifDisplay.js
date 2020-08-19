@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import firebase from './firebaseApp';
-import userSelection from './UserSelection'
 import UserSelection from './UserSelection';
 
 
@@ -10,7 +8,7 @@ class GifDisplay extends Component {
         super();
         this.state = {
             gifs: [],
-            errorMessage: ''
+            errorMessage: '',
         }
     }
     //prevProp access to previous state in relation to this component
@@ -62,6 +60,12 @@ class GifDisplay extends Component {
                     console.log(result);
                     this.setState({
                         gifs: result.data.data
+                    },
+                    () = > {
+                            const dbRef = firebase.database().ref('savedResults');
+                            dbRef.push({
+                              gifs: this.state.gifs,
+                            });
                     })
                 })
             }  
@@ -75,6 +79,9 @@ class GifDisplay extends Component {
                 })
             });
         }
+        
+         
+
 
 
         
@@ -96,8 +103,8 @@ class GifDisplay extends Component {
                 {this.state.gifs.map(items => {
                     return (
                         <div className="gif-container" key={items.id}>
-                            <img src={items?.images?.fixed_width.url} alt="" />
-                            <UserSelection />
+                            <img src={items.images.fixed_width.url} alt="" />
+                            <button>Add Gif</button>
                         </div>
 
                     )
