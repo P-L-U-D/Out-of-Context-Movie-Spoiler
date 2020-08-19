@@ -151,6 +151,7 @@ class SearchBar extends Component {
                 })
     
                 const newKeyWords = randomThree(keywordID);
+
     
                 
                 if (keywordID === undefined || keywordID.length === 0) {
@@ -167,7 +168,8 @@ class SearchBar extends Component {
         })
     }
 
-    
+ 
+     
 
     
 
