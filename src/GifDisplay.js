@@ -73,10 +73,10 @@ class GifDisplay extends Component {
     randomizeGif = (event, index) => {
         let tagWord = ''
         
-        if (event.target.id === '') {
+        if (event.target.dataset.keyword === '') {
             tagWord = this.props.movieTitle
         } else {
-            tagWord = event.target.id
+            tagWord = event.target.dataset.keyword
         }
 
         console.log(tagWord)
@@ -109,12 +109,8 @@ class GifDisplay extends Component {
                 {this.state.gifs.map((items, index) => {
                     return (
                         <div className="gif-container" key={items.id}>
-                            <img onClick={(event) => this.randomizeGif(event, index)} src={items.images.fixed_width.url} alt="" id={this.props.gifWords[index]} />
+                            <img onClick={(event) => this.randomizeGif(event, index)} src={items.images.fixed_width.url} alt={`Gif Title: ${items.title}. Provided by Giphy`} data-keyword={this.props.gifWords[index]} />
                         </div>
-                        // onClick event on the image
-                        // run a function that makes a new API call just for that gif from the random endpoint referencing the keyword
-                        // update the array that displays the gifs (specifically redefine the item inside the array at the index of the clicked on image)
-                        // ERROR CATCH: undefined keyword or repeated value keyword
                     )
                 })}
                 {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
