@@ -1,222 +1,107 @@
-import React, { Component, Fragment } from 'react';
-import GifDisplay from './GifDisplay';
-import randomThree from './randomizer';
+import React, { Component } from 'react';
 import axios from 'axios';
 
 
-
-
-//         // randomly pick 3 words and save
-//         // wrap calls in async fucnction? use await to get response from API 1 before we call API 2
-//         // on successful return of API 2, pass saved keywords to GifDisplay component & trigger view switch
-
-//         // ERROR CATCH: when user types in empty string, don't submit the call & prompt user to write a word
-//         // ERROR CATCH: if user types in a string that is not a direct match, return closest possible match
-//             // STRETCH GOAL: instead of closest match, return a list of possible matches and allow the user to pick the one they want
-//         // ERROT CATCH: NO NUMBERS! people work the regex magic
-
-
-class SearchBar extends Component {
+class GifDisplay extends Component {
     constructor() {
         super();
         this.state = {
-            errorMessage: '',
-            movieSearch: [],
-            backupOptions: [],
-            movieID: [],
-            keywordSearch: [],
-            moviedbAPI: 'b588f737df1d6878d6133a1a7e0bface',
-            giphyAPI: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
-            userInput: "",
-            toggleBackups: false,
-            toggleGifDisplay: false
+            gifs: [],
+            errorMessage: ''
         }
     }
+    //prevProp access to previous state in relation to this component
+    componentDidUpdate(prevProps) {
+        //checking if current gif words are same, then don't run function, only run if userInput
+        if (this.props.gifWords === prevProps.gifWords) return;
 
+        const getGif = async (keyword1, keyword2, keyword3) => {
+            const [gif1, gif2, gif3] = await Promise.all([apiCall(keyword1), apiCall(keyword2), apiCall(keyword3)])
+            // console.log('', gif1, gif2, gif3);
+            const gifs = []
 
+            gifs.push(gif1.data.data, gif2.data.data, gif3.data.data)
 
-    getMovie = (event) => {
-        event.preventDefault();
-        this.setState({
-            toggleBackups: false,
-            toggleGifDisplay: false,
-            backupOptions: [],
-            keywordSearch: []
-        })
-        // API CALL 1: movie search based on user's search 
-        // return the MovieID (also have access to movie details)
-        axios({
-            url: 'https://api.themoviedb.org/3/search/movie?',
-            params: {
-                method: `GET`,
-                responseType: `json`,
-                api_key: this.state.moviedbAPI,
-                query: `${this.state.userInput}`,
-                include_adult: 'false',
-                page: 1
-            }
-        })
-            .then((res) => {
+            // console.log(gifs)
+            this.setState({
+                gifs
+            })
 
-                const match = res.data.results.filter((movie) => {
-                    return movie.title === this.state.userInput
-
-                })
-
-                const backupOptions = res.data.results.filter((movie) => {
-                    return movie.popularity > 10
-                })
-                console.log(match, backupOptions)
-                if (match.length === 1) {
-                    this.setState({
-                        movieSearch: match,
-                        toggleGifDisplay: true
-                    })
-                } else if (match.length === 0 && backupOptions.length === 0) {
-                    this.setState({
-                        errorMessage: 'That doesn\'t seem to be a movie. Why don\'t you try another one?',
-                        movieSearch: [],
-                        keywordSearch: [],
-                        toggleBackups: true
-                    })
-                } else {
-                    this.setState({
-                        errorMessage: 'Sorry, which movie were you looking for?',
-                        backupOptions,
-                        movieSearch: [],
-                        keywordSearch: [],
-                        toggleBackups: true
-                    })
+            // console.log(this);
+        }
+        console.log(this.props.gifWords);
+        const apiCall = (keyword) => {
+            return axios({
+                url: 'https://api.giphy.com/v1/gifs/translate',
+                method: 'GET',
+                dataResponse: 'json',
+                params: {
+                    api_key: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
+                    s: keyword
                 }
+            })
+        }
 
-                //API call 2, return keywords based on query search from API call 1
-                axios({
-                    url: `https://api.themoviedb.org/3/movie/${this.state.movieSearch[0].id}/keywords?`,
+        if (this.props.keywordResults.length === 1 || this.props.keywordResults.length === 2 || this.props.keywordResults === undefined || this.props.keywordResults.length === 0) {
+            console.log('not enough keywords, running with title')
+            const newGif = (keyword) => {
+                return axios({
+                    url: 'https://api.giphy.com/v1/gifs/search',
+                    method: 'GET',
+                    dataResponse: 'json',
                     params: {
-                        api_key: 'b588f737df1d6878d6133a1a7e0bface',
+                        api_key: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
+                        q: keyword,
+                        limit: 3
                     }
                 })
-                    .then((res) => {
-                        const keywordID = res.data.keywords.map((keyword) => {
-                            return keyword.name
-                        })
+                    .then((result) => {
+                        console.log(result);
                         this.setState({
-                            userInput: ""
+                            gifs: result.data.data
                         })
-
-                        const newKeyWords = randomThree(keywordID);
-
-                        this.setState({
-                            keywordSearch: newKeyWords,
-                        })
-                        console.log(newKeyWords);
                     })
-            }).catch(error => {
-                console.log('something went wrong');
-            })
-    }
-
-
-    handleUserInput = (event) => {
-        event.preventDefault();
-        this.setState({
-            userInput: event.target.value
-        })
-    }
-
-    backupSelection = (event) => {
-        const chosenMovie = this.state.backupOptions.filter((backup) => {
-            const targetId = parseInt(event.target.id)
-            return backup.id === targetId
-        })
-
-        this.setState({
-            backupOptions: [],
-            toggleBackups: false,
-            toggleGifDisplay: true,
-            movieId: event.target.id,
-            movieSearch: chosenMovie,
-            userInput: ""
-        },
-            () => {
-                axios({
-                    url: `https://api.themoviedb.org/3/movie/${this.state.movieSearch[0].id}/keywords?`,
-                    params: {
-                        api_key: 'b588f737df1d6878d6133a1a7e0bface',
-                    }
+            }
+            return newGif(this.props.movieTitle)
+        }
+        else {
+            console.log('random keywords running')
+            return getGif(...this.props.gifWords).catch(() => {
+                this.setState({
+                    errorMessage: 'I am so sorry, but no gifs for you right now. I am sick.'
                 })
-                    .then((res) => {
-                        const keywordID = res.data.keywords.map((keyword) => {
-                            return keyword.name
-                        })
-
-                        const newKeyWords = randomThree(keywordID);
+            });
+        }
 
 
-                        if (keywordID === undefined || keywordID.length === 0) {
-                            this.setState({
-                                errorMessage: 'No Gifs for this movie',
-                                toggleBackups: true
-                            })
-                        } else {
-                            this.setState({
-                                keywordSearch: newKeyWords
-                            })
-                        }
-                    })
-            })
+
+        // console.log(this.props.gifTest);
+
+        // API CALL 3: return 3 gifs based of the keywords we get from API 2
+        // save gifs and display onto the page
     }
-
-
-
-
-
 
     render() {
-        // Just a search bar (text input)
+        // display 3 GIFS in horizontal line
+        // MAYBE: include keywords that apply to the gift (in a title attribute or label below)
+        // include a back button that returns user to search bar "home page" 
         return (
-
-            <div className="wrapper" >
-                <form onSubmit={this.getMovie} action="">
-                    <label htmlFor=""></label>
-                    <input value={this.state.userInput} onChange={this.handleUserInput} type="text"
-                        placeholder="Type a movie"
-                        id="" required />
-                    <button type="submit">Search</button>
-                </form>
-                {
-                    this.state.toggleBackups === false
-                        ? null
-                        : <Fragment>
-                            <div className="backupOptions">
-                                <h2>{this.state.errorMessage}</h2>
-                                {this.state.backupOptions.map((backup) => {
-                                    return (
-                                        <div key={backup.id} className="posterContainer">
-                                            <img onClick={this.backupSelection} src={`https://image.tmdb.org/t/p/w200/${backup.poster_path}`} alt={`Movie poster for ${backup.title}`} id={backup.id} />
-                                        </div>
-                                    )
-                                })}
+            <div className="wrapper gif-display">
+                <h2>{this.props.movieTitle}</h2>
+                <div className="gif-box">
+                    {this.state.gifs.map(items => {
+                        return (
+                            <div className="gif-container" key={items.id}>
+                                <img src={items?.images?.fixed_width.url} alt="" />
                             </div>
-                        </Fragment>
-                }
-
-                {
-                    this.state.toggleGifDisplay === false
-                        ? null
-                        : <GifDisplay movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear' />
-                }
-
+                        )
+                    })}
+                    {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
+                </div>
             </div>
-
         )
     }
 }
 
-export default SearchBar;
 
-// if (keywordSearch === undefined || keywordSearch.length == 0) {
-//     alert('There are no gifs for this movie')
-// } else {
-//     return;
-// }
+export default GifDisplay;
