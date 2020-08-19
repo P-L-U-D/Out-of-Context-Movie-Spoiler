@@ -112,11 +112,16 @@ class SearchBar extends Component {
                 console.log(res)
 
                 // Filtering out bad or generic keywords
-                const approvedWords = words.filter((word) =>
-                    !word.match(
-                        /based|graphic|book|aftercreditsstinger|3d|young|novel|adult|comic|true story|aftercreditsstinger|film|imax|violence|film|musical|director|duringcreditsstinger|avengers|marvel|2d|animation|theme|park|poem|protagonist|prince|princess|woman|man|female|male|disorder|character|relationship/g,
-                    ),
-                )
+                const approvedWords = words.filter((e) => {
+                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(film)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)|(2d)|(animation)|(theme)|(park)|(poem)|(protagonist)|(prince)|(princess)|(woman)|(man)|(female)|(male)/g
+
+                    if (badWords.test(e)) {
+                        return false
+                    } else {
+                        return e
+                    }
+                })
+                console.log(approvedWords)
 
                 if (approvedWords.length === 3) {
                     this.setState({
@@ -175,12 +180,16 @@ class SearchBar extends Component {
                     return data.name
                 })
 
-                const approvedWords = words.filter((word) =>
-                    !word.match(
-                        /based|graphic|book|aftercreditsstinger|3d|young|novel|adult|comic|true story|aftercreditsstinger|film|imax|violence|film|musical|director|duringcreditsstinger|avengers|marvel|2d|animation|theme|park|poem|protagonist|prince|princess|woman|man|female|male|disorder|character|relationship/g,
-                    ),
-                )
+                // Filtering out bad or generic keywords
+                const approvedWords = words.filter((e) => {
+                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)|(2d)|(animation)|(theme)|(park)|(poem)|(protagonist)|(prince)|(princess)|(woman)|(man)|(female)|(male)/g
 
+                    if (badWords.test(e)) {
+                        return false
+                    } else {
+                        return e
+                    }
+                })
                 const newKeyWords = randomThree(approvedWords);
 
                 this.setState({

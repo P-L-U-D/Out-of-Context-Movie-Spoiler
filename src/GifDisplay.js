@@ -87,20 +87,20 @@ class GifDisplay extends Component {
       //    gifChoice: ''
       // });
    }
-   // removeSubmission = (gifRemoval) => {
-   //    const dbRef = firebase.database().ref('savedResults');
-   //    dbRef.child(gifRemoval).remove();
-   // }
+   removeSubmission = (gifRemoval) => {
+      const dbRef = firebase.database().ref('savedResults');
+      dbRef.child(gifRemoval).remove();
+   }
    //     gifDatabase = () => {
    //     const dbRef = firebase.database().ref('savedResults');
    //     dbRef.on('value', (snapshot) => {
    //       let savedResults = snapshot.val();
    //       let newState = [];
-   //       for (let key in savedResult) {
+   //       for (let key in savedResults) {
    //         newState.push({
    //           id: key,
-   //           title: savedResults[key].title,
-   //           image: savedResults[key].user
+   //           movieTitle: savedResults[key].movieTitle,
+   //           gif: savedResults[key].gifs
    //         });
    //       }
    //       this.setState({
@@ -127,7 +127,8 @@ class GifDisplay extends Component {
                   {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
                </div>
             </div>
-            <button onClick={this.handleSubmit}>Save to My Gifs</button>
+            <button onClick= {() => this.handleSubmit(this.state.gifs)}>Save to My Gifs</button>
+            <button onClick= {() => this.removeSubmission(this.state.gifs)}>Remove</button>
             <Highlights />
          </Fragment>
       )
