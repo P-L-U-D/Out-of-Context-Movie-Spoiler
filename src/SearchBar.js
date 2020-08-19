@@ -63,7 +63,7 @@ class SearchBar extends Component {
                 return movie.title === this.state.userInput
 
             }) 
-
+            //back-up movie options if user's initial input does not exist
             const backupOptions = res.data.results.filter((movie) => {
                 return movie.popularity > 5
             })
@@ -135,14 +135,14 @@ class SearchBar extends Component {
         })
     }
     
-
+    //user input function
     handleUserInput = (event) => {
         event.preventDefault();
         this.setState({
             userInput: event.target.value
         })
     }
-
+    //back-up option function
     backupSelection = (event) => {
         const chosenMovie = this.state.backupOptions.filter((backup) => {
             const targetId = parseInt(event.target.id)
@@ -158,12 +158,14 @@ class SearchBar extends Component {
             userInput: ""
         }, 
         () => {
+            //axios call to retrieve keywords from the movieDB api using the movie's id
             axios({
                 url: `https://api.themoviedb.org/3/movie/${this.state.movieSearch[0].id}/keywords?`,
                 params: {
                     api_key: 'b588f737df1d6878d6133a1a7e0bface',
                 }
             })
+            //map out keywords associated with a given movie
             .then((res) => {
                 const words = res.data.keywords.map((data) => {
                     return data.name
@@ -171,7 +173,7 @@ class SearchBar extends Component {
 
                 // Filtering out bad or generic keywords
                 const approvedWords = words.filter((e) => {
-                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(film)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)/g
+                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)|(2d)|(animation)|(theme)|(park)/g
 
                     if (badWords.test(e)) {
                         return false
@@ -203,6 +205,7 @@ class SearchBar extends Component {
                     <button type="submit">Search</button>
                 </form>
                 {
+                    //displays the back up movie options to the page
                     this.state.toggleBackups === false
                     ? null
                     : <Fragment>
