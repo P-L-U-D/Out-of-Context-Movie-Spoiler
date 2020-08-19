@@ -34,8 +34,6 @@ class SearchBar extends Component {
         }
     }
 
-    
-
     getMovie = (event) => {
         event.preventDefault();
         this.setState({
@@ -58,6 +56,7 @@ class SearchBar extends Component {
             }
         })
         .then((res) => {
+            console.log(res)
             
             const match = res.data.results.filter((movie) => {
                 return movie.title === this.state.userInput
@@ -65,9 +64,19 @@ class SearchBar extends Component {
             }) 
             //back-up movie options if user's initial input does not exist
             const backupOptions = res.data.results.filter((movie) => {
-                return movie.popularity > 10
+                return movie.popularity > 1
             })
-            if (match.length === 1) {
+            // console.log(match, backupOptions)
+            if (match.length > 1) {
+                const bestMatch = match.filter((movie) => {
+                    return movie.vote_count > 0
+                })
+
+                this.setState({
+                    movieSearch: bestMatch,
+                    toggleGifDisplay: true
+                })
+            } else if (match.length === 1) {
                 this.setState({
                     movieSearch: match,
                     toggleGifDisplay: true
@@ -100,10 +109,11 @@ class SearchBar extends Component {
                 const words = res.data.keywords.map((data) => {
                     return data.name
                 })
+                console.log(res)
 
                 // Filtering out bad or generic keywords
                 const approvedWords = words.filter((e) => {
-                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(film)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)/g
+                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(film)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)|(2d)|(animation)|(theme)|(park)|(poem)|(protagonist)|(prince)|(princess)|(woman)|(man)|(female)|(male)/g
 
                     if (badWords.test(e)) {
                         return false
@@ -111,13 +121,23 @@ class SearchBar extends Component {
                         return e
                     }
                 })
-                const newKeyWords = randomThree(approvedWords);
+                console.log(approvedWords)
 
-                this.setState({
-                    userInput: '',
-                    keywordSearch: newKeyWords,
-                    keywordResults: words
-                });
+                if (approvedWords.length === 3) {
+                    this.setState({
+                        userInput: '',
+                        keywordSearch: approvedWords,
+                        keywordResults: words
+                    });
+                } else {
+                    const newKeyWords = randomThree(approvedWords);
+                    this.setState({
+                        userInput: '',
+                        keywordSearch: newKeyWords,
+                        keywordResults: words
+                    });
+                }
+
             }) 
         }).catch(error => {
             
@@ -162,7 +182,7 @@ class SearchBar extends Component {
 
                 // Filtering out bad or generic keywords
                 const approvedWords = words.filter((e) => {
-                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)|(2d)|(animation)|(theme)|(park)/g
+                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)|(2d)|(animation)|(theme)|(park)|(poem)|(protagonist)|(prince)|(princess)|(woman)|(man)|(female)|(male)/g
 
                     if (badWords.test(e)) {
                         return false
