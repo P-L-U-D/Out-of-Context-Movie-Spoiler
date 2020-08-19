@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import firebase from './firebase';
+import firebase from './firebase'
 
 
 class GifDisplay extends Component {
@@ -8,7 +8,9 @@ class GifDisplay extends Component {
         super();
         this.state = {
             gifs: [],
-            errorMessage: ''
+            errorMessage: '',
+            gifpicks:[]
+
         }
     }
     //prevProp access to previous state in relation to this component
@@ -73,6 +75,11 @@ class GifDisplay extends Component {
                 })
             });
         }
+        
+        
+        //create saved info button 
+
+
 
         
 
@@ -82,6 +89,44 @@ class GifDisplay extends Component {
         // save gifs and display onto the page
     }
 
+    handleSubmit(event, gifChoice) {
+        event.preventDefault();
+        const dbRef = firebase.database().ref('savedResults');
+        const savedResult = {
+          gifpicks: gifChoice
+        }
+        dbRef.push(item);
+        this.setState({
+            gifChoice:''
+
+        });
+      }
+
+
+    removeSubmission = (gifRemoval) => {
+        const dbRef = firebase.database().ref('savedResults');
+        dbRef.child(gifRemoval).remove();
+    }
+
+    gifDatabase = () => {
+    const dbRef = firebase.database().ref('savedResults');
+    dbRef.on('value', (snapshot) => {
+      let savedResults = snapshot.val();
+      let newState = [];
+      for (let key in savedResult) {
+        newState.push({
+          id: key,
+          title: savedResults[key].title,
+          image: savedResults[key].user
+        });
+      }
+      this.setState({
+        savedResults: newState
+      });
+    });
+  }
+
+
     render() {
         // display 3 GIFS in horizontal line
         // MAYBE: include keywords that apply to the gift (in a title attribute or label below)
@@ -90,11 +135,15 @@ class GifDisplay extends Component {
             <div className="wrapper gif-display">
                 <h2>{this.props.movieTitle}</h2>
                 <div className="gif-box">
-                {this.state.gifs.map(items => {
+                {this.state.gifs.map(item => {
                     return (
-                        <div className="gif-container" key={items.id}>
-                            <img src={items?.images?.fixed_width.url} alt="" />
+                        <div className="gif-container" key={item.id}>
+                            <img src={item.images.fixed_width.url} alt="" />
+                            <button onClick= {() => this.handleSubmit(item.id)}>Add Gif</button>
+                            <button onClick= {() => this.removeSubmission(item.id)}>Remove Gif</button>
+                            
                         </div>
+
                     )
                 })}
                 {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
