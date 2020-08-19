@@ -70,17 +70,51 @@ class GifDisplay extends Component {
         }
     }
 
+    randomizeGif = (event, index) => {
+        let tagWord = ''
+        
+        if (event.target.id === '') {
+            tagWord = this.props.movieTitle
+        } else {
+            tagWord = event.target.id
+        }
+
+        console.log(tagWord)
+        axios({
+            url: 'https://api.giphy.com/v1/gifs/random',
+            method: 'GET',
+            dataResponse: 'json',
+            params: {
+                api_key: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
+                tag: tagWord,
+            }
+        })
+        .then((result) => {
+            const gif = result.data.data
+            const newGifArray = [...this.state.gifs]
+            newGifArray[index] = gif
+
+            this.setState({
+                gifs: newGifArray
+            })
+        })
+    }
+
     render() {
         // display 3 GIFS in horizontal line
         return (
             <div className="wrapper gif-display">
                 <h2>{this.props.movieTitle}</h2>
                 <div className="gif-box">
-                {this.state.gifs.map(items => {
+                {this.state.gifs.map((items, index) => {
                     return (
                         <div className="gif-container" key={items.id}>
-                            <img src={items?.images?.fixed_width.url} alt="" />
+                            <img onClick={(event) => this.randomizeGif(event, index)} src={items.images.fixed_width.url} alt="" id={this.props.gifWords[index]} />
                         </div>
+                        // onClick event on the image
+                        // run a function that makes a new API call just for that gif from the random endpoint referencing the keyword
+                        // update the array that displays the gifs (specifically redefine the item inside the array at the index of the clicked on image)
+                        // ERROR CATCH: undefined keyword or repeated value keyword
                     )
                 })}
                 {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
