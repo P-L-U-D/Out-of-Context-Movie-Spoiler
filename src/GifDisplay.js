@@ -39,6 +39,7 @@ class GifDisplay extends Component {
         }
         //if statement that checks the keyword results for a given movie
         if (this.props.keywordResults.length === 1 || this.props.keywordResults.length === 2 || this.props.keywordResults === undefined || this.props.keywordResults.length === 0) {
+            console.log('running with random gif search')
             const newGif = (keyword) => {
                 //if conditions are true run another api call to /search endpoint to retrieve gifs based on movie title rather than movie keywords
                 return axios({
@@ -60,6 +61,7 @@ class GifDisplay extends Component {
             return newGif(this.props.movieTitle)
         }   //otherwise display keyword related gifs
             else {
+                console.log('running with translate gif endpoint')
                 return getGif(...this.props.gifWords).catch(() => {
                 this.setState({
                     errorMessage: 'I am so sorry, but no gifs for you right now. I am sick.'
