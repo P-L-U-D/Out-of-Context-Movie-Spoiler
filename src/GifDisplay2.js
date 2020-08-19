@@ -1,6 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import axios from 'axios';
-import firebase from './firebase'
+import firebase from './firebase.js'
+import Highlights from './Highlights.js'
+
+
+
 class GifDisplay extends Component {
    constructor() {
       super();
@@ -72,21 +76,21 @@ class GifDisplay extends Component {
       // API CALL 3: return 3 gifs based of the keywords we get from API 2
       // save gifs and display onto the page
    }
-   handleSubmit(event, gifChoice) {
-      event.preventDefault();
+   handleSubmit() {
       const dbRef = firebase.database().ref('savedResults');
       const savedResult = {
-         gifpicks: gifChoice
+         movieTitle: this.props.movieTitle,
+         gifs: this.state.gifs
       }
-      dbRef.push(item);
-      this.setState({
-         gifChoice: ''
-      });
+      dbRef.push(savedResult);
+      // this.setState({
+      //    gifChoice: ''
+      // });
    }
-   removeSubmission = (gifRemoval) => {
-      const dbRef = firebase.database().ref('savedResults');
-      dbRef.child(gifRemoval).remove();
-   }
+   // removeSubmission = (gifRemoval) => {
+   //    const dbRef = firebase.database().ref('savedResults');
+   //    dbRef.child(gifRemoval).remove();
+   // }
    //     gifDatabase = () => {
    //     const dbRef = firebase.database().ref('savedResults');
    //     dbRef.on('value', (snapshot) => {
@@ -109,21 +113,23 @@ class GifDisplay extends Component {
       // MAYBE: include keywords that apply to the gift (in a title attribute or label below)
       // include a back button that returns user to search bar "home page" 
       return (
-         <div className="wrapper gif-display">
-            <h2>{this.props.movieTitle}</h2>
-            <div className="gif-box">
-               {this.state.gifs.map(item => {
-                  return (
-                     <div className="gif-container" key={item.id}>
-                        <img src={item.images.fixed_width.url} alt="" />
-                        <button onClick={() => this.handleSubmit(item.id)}>Add Gif</button>
-                        <button onClick={() => this.removeSubmission(item.id)}>Remove Gif</button>
-                     </div>
-                  )
-               })}
-               {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
+         <Fragment>
+            <div className="wrapper gif-display">
+               <h2>{this.props.movieTitle}</h2>
+               <div className="gif-box">
+                  {this.state.gifs.map(item => {
+                     return (
+                        <div className="gif-container" key={item.id}>
+                           <img src={item.images.fixed_width.url} alt="" />
+                        </div>
+                     )
+                  })}
+                  {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
+               </div>
             </div>
-         </div>
+            <button onClick={this.handleSubmit}>Save to My Gifs</button>
+            <Highlights />
+         </Fragment>
       )
    }
 }
