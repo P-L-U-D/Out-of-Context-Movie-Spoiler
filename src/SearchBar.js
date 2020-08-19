@@ -65,10 +65,19 @@ class SearchBar extends Component {
             }) 
 
             const backupOptions = res.data.results.filter((movie) => {
-                return movie.popularity > 10
+                return movie.popularity > 5
             })
-            console.log(match, backupOptions)
-            if (match.length === 1) {
+            // console.log(match, backupOptions)
+            if (match.length > 1) {
+                const bestMatch = match.filter((movie) => {
+                    return movie.vote_count > 0
+                })
+
+                this.setState({
+                    movieSearch: bestMatch,
+                    toggleGifDisplay: true
+                })
+            } else if (match.length === 1) {
                 this.setState({
                     movieSearch: match,
                     toggleGifDisplay: true
@@ -112,6 +121,7 @@ class SearchBar extends Component {
                         return e
                     }
                 })
+                console.log(approvedWords)
                 const newKeyWords = randomThree(approvedWords);
 
                 this.setState({

@@ -56,7 +56,7 @@ class GifDisplay extends Component {
                     }
                 })
                 .then( (result) => {
-                    console.log(result);
+                    // console.log(result);
                     this.setState({
                         gifs: result.data.data
                     })
