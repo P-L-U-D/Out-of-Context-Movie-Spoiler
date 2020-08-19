@@ -22,7 +22,11 @@
     width:300px;
     height:300px;
     box-shadow: 10px 10px 0 black;
+    cursor: pointer;
 
+    &:hover {
+        border: 2px solid $yellow;
+    }
 }
 
 
