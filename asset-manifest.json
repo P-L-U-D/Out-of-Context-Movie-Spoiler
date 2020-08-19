@@ -1,0 +1,22 @@
+{
+  "files": {
+    "main.css": "/Out-of-Context-Movie-Spoiler/static/css/main.4f381b27.chunk.css",
+    "main.js": "/Out-of-Context-Movie-Spoiler/static/js/main.be042ab8.chunk.js",
+    "main.js.map": "/Out-of-Context-Movie-Spoiler/static/js/main.be042ab8.chunk.js.map",
+    "runtime-main.js": "/Out-of-Context-Movie-Spoiler/static/js/runtime-main.4bd3378c.js",
+    "runtime-main.js.map": "/Out-of-Context-Movie-Spoiler/static/js/runtime-main.4bd3378c.js.map",
+    "static/js/2.18ffa247.chunk.js": "/Out-of-Context-Movie-Spoiler/static/js/2.18ffa247.chunk.js",
+    "static/js/2.18ffa247.chunk.js.map": "/Out-of-Context-Movie-Spoiler/static/js/2.18ffa247.chunk.js.map",
+    "index.html": "/Out-of-Context-Movie-Spoiler/index.html",
+    "precache-manifest.bd00c67c85e28ade7612402de4aec120.js": "/Out-of-Context-Movie-Spoiler/precache-manifest.bd00c67c85e28ade7612402de4aec120.js",
+    "service-worker.js": "/Out-of-Context-Movie-Spoiler/service-worker.js",
+    "static/css/main.4f381b27.chunk.css.map": "/Out-of-Context-Movie-Spoiler/static/css/main.4f381b27.chunk.css.map",
+    "static/js/2.18ffa247.chunk.js.LICENSE.txt": "/Out-of-Context-Movie-Spoiler/static/js/2.18ffa247.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4bd3378c.js",
+    "static/js/2.18ffa247.chunk.js",
+    "static/css/main.4f381b27.chunk.css",
+    "static/js/main.be042ab8.chunk.js"
+  ]
+}
