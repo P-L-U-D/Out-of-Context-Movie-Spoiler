@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import GifDisplay2 from './GifDisplay2';
+import GifDisplay from './GifDisplay';
 import randomThree from './randomizer';
 import axios from 'axios';
 
@@ -225,7 +225,7 @@ class SearchBar extends Component {
                 {
                     this.state.toggleGifDisplay === false
                     ? null 
-                    : <GifDisplay2 keywordResults={this.state.keywordResults} movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/>
+                    : <GifDisplay keywordResults={this.state.keywordResults} movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/>
                 }
 
             </div>
