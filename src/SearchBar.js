@@ -162,7 +162,7 @@ class SearchBar extends Component {
 
                 // Filtering out bad or generic keywords
                 const approvedWords = words.filter((e) => {
-                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(film)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)|(2d)|(animation)|(theme)|(park)/g
+                    const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)|(2d)|(animation)|(theme)|(park)/g
 
                     if (badWords.test(e)) {
                         return false
