@@ -108,23 +108,23 @@ class GifDisplay extends Component {
         dbRef.child(gifRemoval).remove();
     }
 
-    gifDatabase = () => {
-    const dbRef = firebase.database().ref('savedResults');
-    dbRef.on('value', (snapshot) => {
-      let savedResults = snapshot.val();
-      let newState = [];
-      for (let key in savedResult) {
-        newState.push({
-          id: key,
-          title: savedResults[key].title,
-          image: savedResults[key].user
-        });
-      }
-      this.setState({
-        savedResults: newState
-      });
-    });
-  }
+//     gifDatabase = () => {
+//     const dbRef = firebase.database().ref('savedResults');
+//     dbRef.on('value', (snapshot) => {
+//       let savedResults = snapshot.val();
+//       let newState = [];
+//       for (let key in savedResult) {
+//         newState.push({
+//           id: key,
+//           title: savedResults[key].title,
+//           image: savedResults[key].user
+//         });
+//       }
+//       this.setState({
+//         savedResults: newState
+//       });
+//     });
+//   }
 
 
     render() {
