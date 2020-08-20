@@ -3,6 +3,7 @@ const randomIndex = (array) => {
    return array[index]
 }
 
+//geting 3 random keywords for the movieApi 
 const randomThree = (array) => {
    let one = randomIndex(array);
    let two = randomIndex(array);

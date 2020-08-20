@@ -32,6 +32,10 @@
     }
 }
 
+.gif-container img:focus {
+    outline: 2px solid $yellow;
+}
+
 .save-button {
     margin: 0 auto;
 }

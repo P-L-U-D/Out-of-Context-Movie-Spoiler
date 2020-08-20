@@ -117,7 +117,7 @@ class SearchBar extends Component {
             })
     }
 
-
+//user enters the name of a movie 
     handleUserInput = (event) => {
         event.preventDefault();
         this.setState({
@@ -198,7 +198,7 @@ class SearchBar extends Component {
                                 {this.state.backupOptions.map((backup) => {
                                     return (
                                         <div key={backup.id} className="posterContainer">
-                                            <img onClick={this.backupSelection} src={`https://image.tmdb.org/t/p/w200/${backup.poster_path}`} alt={`Movie poster for ${backup.title}`} id={backup.id} />
+                                            <img onClick={this.backupSelection} src={`https://image.tmdb.org/t/p/w200/${backup.poster_path}`} alt={`Movie poster for ${backup.title}`} id={backup.id} tabindex="0"/>
                                         </div>
                                     )
                                 })}
