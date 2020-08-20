@@ -1,7 +1,11 @@
 footer{
-    margin-top:300px;
-}
+    margin: 20px 0;
+    border-top: 2px solid $dark-blue;
+    width: 80%;
 
-footer .copyright{
-    background:$medium-blue;
+    p {
+        background: none;
+        margin: 0 auto;
+        padding: 5px;
+    }
 }
