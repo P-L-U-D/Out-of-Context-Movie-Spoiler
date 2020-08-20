@@ -87,6 +87,35 @@ class GifDisplay extends Component {
         //    gifChoice: ''
         // });
     }
+
+    // Users can select any individual gif to generate a different one
+    moreGifs = (event, index) => {
+        console.log(event.target.dataset.keyword);
+
+        const chosenGif = event.target.dataset.keyword
+        // console.log(chosenGif);
+
+        axios({
+            url: 'https://api.giphy.com/v1/gifs/random',
+            method: 'GET',
+            dataResponse: 'json',
+            params: {
+                api_key: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
+                tag: chosenGif
+            }
+        }).then((result) => {
+            console.log(result.data.data);
+
+            const funGif = result.data.data
+            const newGifsArray = [...this.state.gifs]
+            newGifsArray[index] = funGif
+
+            this.setState({
+                gifs: newGifsArray
+            })
+        })
+    }
+
     // removeSubmission = (gifRemoval) => {
     //    const dbRef = firebase.database().ref('savedResults');
     //    dbRef.child(gifRemoval).remove();
@@ -117,11 +146,12 @@ class GifDisplay extends Component {
                 <div className="wrapper gif-display">
                     <h2>{this.props.movieTitle}</h2>
                     <div className="gif-box">
-                        {this.state.gifs.map(item => {
+                        {this.state.gifs.map((items, index) => {
                             return (
-                                <div className="gif-container" key={item.id}>
-                                    <img src={item.images.fixed_width.url} alt="" />
+                                <div className="gif-container" key={items.id}>
+                                    <img onClick={(event) => this.moreGifs(event, index)} src={items.images.fixed_width.url} data-keyword={this.props.gifWords[index]} alt="" />
                                 </div>
+
                             )
                         })}
                         {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
