@@ -13,6 +13,8 @@
     }
 }
 
+
+
 .gif-box{
     padding-top:20px;
     display:flex;
@@ -37,12 +39,30 @@
 }
 
 
+
+@media(max-width:600px){
+    header nav{
+        padding:0;
+        align-self: center;
+    }
+}
+
 @media(max-width:400px) {
     .gif-container img{
         width:200px;
         height:200px;
         
     }
+
+   form{
+       padding:0;
+   }
+
+   h3{
+       text-align: center;
+   }
+
+
 
     
 }

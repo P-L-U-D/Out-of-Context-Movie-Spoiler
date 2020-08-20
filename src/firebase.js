@@ -1,5 +1,6 @@
 import firebase from 'firebase';
 
+// using firebase for saving gifs and sorting them in a database
 const firebaseConfig = {
    apiKey: "AIzaSyDHGxU6CsX_wSKhz928RUSBS8zVsXlzSHA",
    authDomain: "out-of-context-movie-spoiler.firebaseapp.com",

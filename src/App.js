@@ -12,6 +12,7 @@ import './styles/styles.scss'
 
 class App extends Component {
   // imported SearchBar.js and rendered out the gifs in this return
+  //added router to link to others components 
   render() {
     return (
       <Router>

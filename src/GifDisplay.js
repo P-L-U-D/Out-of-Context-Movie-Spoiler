@@ -18,14 +18,11 @@ class GifDisplay extends Component {
         if (this.props.gifWords === prevProps.gifWords) return;
         const getGif = async (keyword1, keyword2, keyword3) => {
             const [gif1, gif2, gif3] = await Promise.all([apiCall(keyword1), apiCall(keyword2), apiCall(keyword3)])
-            // console.log('', gif1, gif2, gif3);
             const gifs = []
             gifs.push(gif1.data.data, gif2.data.data, gif3.data.data)
-            // console.log(gifs)
             this.setState({
                 gifs
             })
-            // console.log(this);
         }
         console.log(this.props.gifWords);
         const apiCall = (keyword) => {
@@ -69,26 +66,13 @@ class GifDisplay extends Component {
                 })
             });
         }
-        //create saved info button 
-        // console.log(this.props.gifTest);
-        // API CALL 3: return 3 gifs based of the keywords we get from API 2
-        // save gifs and display onto the page
+    
     }
-    handleSubmit() {
-        const dbRef = firebase.database().ref('savedResults');
-        const savedResult = {
-            movieTitle: this.props.movieTitle,
-            gifs: this.state.gifs
-        }
-        dbRef.push(savedResult);
-    }
-
     // Users can select any individual gif to generate a different one
     moreGifs = (event, index) => {
         console.log(event.target.dataset.keyword);
 
         const chosenGif = event.target.dataset.keyword
-        // console.log(chosenGif);
 
         axios({
             url: 'https://api.giphy.com/v1/gifs/random',
@@ -108,10 +92,8 @@ class GifDisplay extends Component {
             })
          });
       }
-      //create saved info button 
-      // API CALL 3: return 3 gifs based of the keywords we get from API 2
-      // save gifs and display onto the page
-      
+
+    //created a submit button where users can save the gifs from the result page 
       handleSubmit = () => {
           const dbRef = firebase.database().ref('savedResults');
           const savedResult = {
@@ -121,9 +103,7 @@ class GifDisplay extends Component {
             dbRef.push(savedResult);
         }
     render() {
-        // display 3 GIFS in horizontal line
-        // MAYBE: include keywords that apply to the gift (in a title attribute or label below)
-        // include a back button that returns user to search bar "home page" 
+        // displaying user search result onto the page
         return (
             <Fragment>
                 <div className="wrapper gif-display">
