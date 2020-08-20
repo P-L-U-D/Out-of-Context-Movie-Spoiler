@@ -1,0 +1,31 @@
+header {
+   width: 100%;
+   display: flex;
+   justify-content: center;
+   background: $dark-blue;
+
+   h1 {
+      color: $light-gray;
+      font-family: $header-font;
+      padding: 20px;
+      text-align: center;
+      font-size: calc(1.5rem + 2vw);
+      width: 60%;
+   }
+
+   nav {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+
+      ul {
+         display: flex;
+         justify-content: space-between;
+         color: $light-gray;
+
+         li {
+            margin: 10px;
+         }
+      }
+   }
+}

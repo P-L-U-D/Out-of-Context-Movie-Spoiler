@@ -5,17 +5,6 @@ import axios from 'axios';
 
 
 
-
-//         // randomly pick 3 words and save
-//         // wrap calls in async fucnction? use await to get response from API 1 before we call API 2
-//         // on successful return of API 2, pass saved keywords to GifDisplay component & trigger view switch
-
-//         // ERROR CATCH: when user types in empty string, don't submit the call & prompt user to write a word
-//         // ERROR CATCH: if user types in a string that is not a direct match, return closest possible match
-//             // STRETCH GOAL: instead of closest match, return a list of possible matches and allow the user to pick the one they want
-//         // ERROT CATCH: NO NUMBERS! people work the regex magic
-
-
 class SearchBar extends Component {
     constructor() {
         super();
@@ -30,7 +19,7 @@ class SearchBar extends Component {
             giphyAPI: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
             userInput: "",
             toggleBackups: false,
-            toggleGifDisplay: false
+            toggleGifDisplay: false,
         }
     }
 
@@ -189,18 +178,19 @@ class SearchBar extends Component {
     render() {
         // Just a search bar (text input)
         return (
-
-            <div className="wrapper" >
-                <form onSubmit={this.getMovie} action="">
-                    <label htmlFor=""></label>
-                    <input value={this.state.userInput} onChange={this.handleUserInput} type="text"
-                        placeholder="Type a movie"
-                        id="" required />
-                    <button type="submit">Search</button>
-                </form>
-                {
-                    //displays the back up movie options to the page
-                    this.state.toggleBackups === false
+            <Fragment>
+                <h3>Type in a movie and get those gifs!</h3>
+                <div className="wrapper" >
+                    <form onSubmit={this.getMovie}  action="">
+                        <label htmlFor=""></label>
+                        <input value={this.state.userInput} onChange={this.handleUserInput} type="text"
+                            placeholder="Type a movie"
+                            id="" required />
+                        <button type="submit">Search</button>
+                    </form>
+                    {
+                        //displays the back up movie options to the page
+                        this.state.toggleBackups === false
                         ? null
                         : <Fragment>
                             <div className="backupOptions">
@@ -214,16 +204,15 @@ class SearchBar extends Component {
                                 })}
                             </div>
                         </Fragment>
-                }
-
-                {
-                    this.state.toggleGifDisplay === false
-                        ? null
-                        : <GifDisplay keywordResults={this.state.keywordResults} movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} moreGifs={this.moreGifs} gifTest='bear' />
-                }
-
-            </div>
-
+                    }
+    
+                    {
+                        this.state.toggleGifDisplay === false
+                        ? null 
+                        : <GifDisplay keywordResults={this.state.keywordResults} movieTitle={this.state.movieSearch[0].title} gifWords={this.state.keywordSearch} gifTest='bear'/>
+                    }
+                </div>
+            </Fragment>
         )
     }
 }
