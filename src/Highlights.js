@@ -29,7 +29,7 @@ class Highlights extends Component {
       });
    }
 
-// user is able to remove the saved gif from the database
+   //user is able to remove the saved gif from the database
    removeSubmission = (postRemoval) => {
       const dbRef = firebase.database().ref('savedResults');
       dbRef.child(postRemoval).remove();
