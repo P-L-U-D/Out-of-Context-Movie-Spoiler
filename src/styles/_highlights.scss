@@ -4,10 +4,15 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      align-items: center;
       background: $dark-blue;
       border-radius: 10px;
       margin: 40px 0;
       padding: 15px;
+
+      button {
+         align-self: center;
+      }
    }
    
    h2 {
@@ -17,6 +22,7 @@
       padding: 10px 20px;
       border-radius: 5px;
       margin-top: 0;
+      width: 75%;
    }
 
    .display-box {
@@ -26,8 +32,8 @@
    }
 
    .gif-container img {
-      width: 150px;
-      height: 150px;
+      width: 200px;
+      height: 200px;
       cursor: default;
 
       &:hover {

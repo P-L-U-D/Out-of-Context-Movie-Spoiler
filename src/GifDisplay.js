@@ -112,7 +112,7 @@ class GifDisplay extends Component {
                         {this.state.gifs.map((items, index) => {
                             return (
                                 <div className="gif-container" key={items.id}>
-                                    <img onClick={(event) => this.moreGifs(event, index)} src={items.images.fixed_width.url} data-keyword={this.props.gifWords[index]} alt={`Gif title: ${items.images.title}. Provided by Giphy`} tabindex="0"/>
+                                    <img onClick={(event) => this.moreGifs(event, index)} src={items.images.fixed_width.url} data-keyword={this.props.gifWords[index]} alt={`Gif title: ${items.title}. Provided by Giphy`} tabIndex="0"/>
                                 </div>
                             )
                         })}

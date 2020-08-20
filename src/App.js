@@ -18,22 +18,27 @@ class App extends Component {
       <Router>
         <main>
           <header>
-            <h1>Out of Context Movie Spoiler</h1>
-            <nav>
-              <ul>
-                <li>
-                  <Link to="/Out-of-Context-Movie-Spoiler/">Home</Link>
-                </li>
-                <li>
-                  <Link to="/Out-of-Context-Movie-Spoiler/highlights">Highlights</Link>
-                </li>
-              </ul>
-            </nav>
+            <div className="wrapper">
+              <h1>Out of Context Movie Spoiler</h1>
+              <nav>
+                <ul>
+                  <li>
+                    <Link to="/Out-of-Context-Movie-Spoiler/">Home</Link>
+                  </li>
+                  <li>
+                    <Link to="/Out-of-Context-Movie-Spoiler/highlights">Highlights</Link>
+                  </li>
+                </ul>
+              </nav>
+            </div>
           </header>
-          <Route exact path="/Out-of-Context-Movie-Spoiler/" component={ SearchBar } />
-          <Route exact path="/Out-of-Context-Movie-Spoiler/highlights" component={ Highlights } />
+          <section className="wrapper">
+            <Route exact path="/Out-of-Context-Movie-Spoiler/" component={ SearchBar } />
+            <Route exact path="/Out-of-Context-Movie-Spoiler/highlights" component={ Highlights } />
+          </section>
           <footer>
             <p className="copyright">Created by Juno College © 2020</p>
+            <p>Powered by Giphy</p>
           </footer>
         </main>
       </Router>

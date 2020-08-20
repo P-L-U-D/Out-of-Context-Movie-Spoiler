@@ -13,8 +13,6 @@
     }
 }
 
-
-
 .gif-box{
     padding-top:20px;
     display:flex;
@@ -41,41 +39,3 @@
 .save-button {
     margin: 0 auto;
 }
-
-
-
-@media(max-width:600px){
-    header nav{
-        padding:0;
-        align-self: center;
-    }
-}
-
-@media(max-width:400px) {
-    .gif-container img{
-        width:200px;
-        height:200px;
-        
-    }
-
-    .gif-display h2{
-        width:50%;
-    }
-
-   input,
-   button{
-        padding:0;
-        width:80%;
-   }
-
-   h3{
-        text-align: center;
-   }
-   
-   .save-button{
-       width:80%;
-       margin: 0 auto;
-    }
- }
-
-    
