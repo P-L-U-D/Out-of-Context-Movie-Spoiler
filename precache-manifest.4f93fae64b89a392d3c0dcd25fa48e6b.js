@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "c0b34d8ac8660d2f5d8233311f2dfe0d",
+    "revision": "5056eda0498b2d532281d21cc1ef35f8",
     "url": "/Out-of-Context-Movie-Spoiler/index.html"
   },
   {
-    "revision": "1a239e640761f50dd07b",
+    "revision": "96c5592860f41990f39a",
     "url": "/Out-of-Context-Movie-Spoiler/static/css/main.a5220e69.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Out-of-Context-Movie-Spoiler/static/js/2.b8dc14b7.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "1a239e640761f50dd07b",
-    "url": "/Out-of-Context-Movie-Spoiler/static/js/main.d94bfa3d.chunk.js"
+    "revision": "96c5592860f41990f39a",
+    "url": "/Out-of-Context-Movie-Spoiler/static/js/main.2469ab4b.chunk.js"
   },
   {
     "revision": "57faa3ddc7c5e752601d",
