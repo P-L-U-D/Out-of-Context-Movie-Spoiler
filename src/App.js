@@ -21,16 +21,16 @@ class App extends Component {
             <nav>
               <ul>
                 <li>
-                  <Link to="/">Home</Link>
+                  <Link to="/Out-of-Context-Movie-Spoiler/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/highlights">Highlights</Link>
+                  <Link to="/Out-of-Context-Movie-Spoiler/highlights">Highlights</Link>
                 </li>
               </ul>
             </nav>
           </header>
-          <Route exact path="/" component={ SearchBar } />
-          <Route exact path="/highlights" component={ Highlights } />
+          <Route exact path="/Out-of-Context-Movie-Spoiler/" component={ SearchBar } />
+          <Route exact path="/Out-of-Context-Movie-Spoiler/highlights" component={ Highlights } />
           <footer>
             <p className="copyright">Created by Juno College © 2020</p>
           </footer>
