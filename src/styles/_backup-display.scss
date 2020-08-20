@@ -19,4 +19,8 @@
          transition: transform .3s; 
       }
    }
+
+   .posterContainer img:focus {
+      outline: 2px solid $yellow;
+   }
 }

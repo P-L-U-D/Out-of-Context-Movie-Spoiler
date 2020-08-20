@@ -45,13 +45,13 @@ class Highlights extends Component {
                         <h2 >{gifObject.movieTitle}</h2>
                         <div className="display-box">
                            <div className="gif-container">
-                              <img src={gifObject.gif[0].images.fixed_width.url} alt={gifObject.gif[0].title}/>
+                              <img src={gifObject.gif[0].images.fixed_width.url} alt={gifObject.gif[0].title} tabindex="0"/>
                            </div>
                            <div className="gif-container">
-                              <img src={gifObject.gif[1].images.fixed_width.url} alt={gifObject.gif[1].title}/>
+                              <img src={gifObject.gif[1].images.fixed_width.url} alt={gifObject.gif[1].title} tabindex="0"/>
                            </div>
                            <div className="gif-container">
-                              <img src={gifObject.gif[2].images.fixed_width.url} alt={gifObject.gif[2].title}/>
+                              <img src={gifObject.gif[2].images.fixed_width.url} alt={gifObject.gif[2].title} tabindex="0"/>
                            </div>
                         </div>
                         <button onClick={ () => this.removeSubmission(gifObject.id)}>Remove</button>
