@@ -20,12 +20,12 @@ import './styles/styles.scss'
 
 class App extends Component {
   // MVP: Need two views:
-    // Homepage: Title, instructions
-    // View 1: Search Bar
-      // part of the homepage, just a large text input
-    // View 2: Giphy Display
-      // branches off homepage, instructions are hidden and search bar is small and moved
-      // gif display takes front and center
+  // Homepage: Title, instructions
+  // View 1: Search Bar
+  // part of the homepage, just a large text input
+  // View 2: Giphy Display
+  // branches off homepage, instructions are hidden and search bar is small and moved
+  // gif display takes front and center
 
   render() {
     return (
