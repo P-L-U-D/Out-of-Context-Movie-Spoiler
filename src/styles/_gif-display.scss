@@ -54,15 +54,24 @@
         
     }
 
-   form{
-       padding:0;
+    .gif-display h2{
+        width:50%;
+    }
+
+   input,
+   button{
+        padding:0;
+        width:80%;
    }
 
    h3{
-       text-align: center;
+        text-align: center;
    }
-
-
+   
+   .save-button{
+       width:80%;
+       margin: 0 auto;
+    }
+ }
 
     
-}
