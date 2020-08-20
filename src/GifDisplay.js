@@ -4,7 +4,6 @@ import firebase from './firebase.js'
 import Highlights from './Highlights.js'
 
 
-
 class GifDisplay extends Component {
    constructor() {
       super();
@@ -76,6 +75,7 @@ class GifDisplay extends Component {
       // API CALL 3: return 3 gifs based of the keywords we get from API 2
       // save gifs and display onto the page
    }
+
    handleSubmit() {
       const dbRef = firebase.database().ref('savedResults');
       const savedResult = {
@@ -83,31 +83,11 @@ class GifDisplay extends Component {
          gifs: this.state.gifs
       }
       dbRef.push(savedResult);
-      // this.setState({
-      //    gifChoice: ''
-      // });
    }
-   // removeSubmission = (gifRemoval) => {
-   //    const dbRef = firebase.database().ref('savedResults');
-   //    dbRef.child(gifRemoval).remove();
-   // }
-   //     gifDatabase = () => {
-   //     const dbRef = firebase.database().ref('savedResults');
-   //     dbRef.on('value', (snapshot) => {
-   //       let savedResults = snapshot.val();
-   //       let newState = [];
-   //       for (let key in savedResult) {
-   //         newState.push({
-   //           id: key,
-   //           title: savedResults[key].title,
-   //           image: savedResults[key].user
-   //         });
-   //       }
-   //       this.setState({
-   //         savedResults: newState
-   //       });
-   //     });
-   //   }
+
+   
+       
+
    render() {
       // display 3 GIFS in horizontal line
       // MAYBE: include keywords that apply to the gift (in a title attribute or label below)
@@ -127,7 +107,7 @@ class GifDisplay extends Component {
                   {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
                </div>
             </div>
-            <button onClick={this.handleSubmit}>Save to My Gifs</button>
+            <button onClick= {() => this.handleSubmit(this.state.gifs)}>Save to My Gifs</button>
             <Highlights />
          </Fragment>
       )
