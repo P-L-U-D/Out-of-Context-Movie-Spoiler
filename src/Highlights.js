@@ -12,8 +12,6 @@ class Highlights extends Component {
       }
    }
 
-
-
    componentDidMount() {
       
       const dbRef = firebase.database().ref('savedResults');
