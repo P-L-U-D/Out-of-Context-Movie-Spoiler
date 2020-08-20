@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import firebase from './firebase'
 
-
-
 class Highlights extends Component {
 
    constructor() {
@@ -39,13 +37,13 @@ class Highlights extends Component {
 
    render () {
       return (
-         <div className="addedUserReview">
+         <div className="highlights">
             { 
                this.state.savedResults.map((gifObject) => {
                   return (
-                     <div key={gifObject.id} className="addedUserReview">
+                     <div key={gifObject.id} className="saved-snapshot">
                         <h2 >{gifObject.movieTitle}</h2>
-                        <div>
+                        <div className="display-box">
                            <div className="gif-container">
                               <img src={gifObject.gif[0].images.fixed_width.url} alt={gifObject.gif[0].title}/>
                            </div>

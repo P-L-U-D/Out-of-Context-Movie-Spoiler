@@ -1,0 +1,37 @@
+.highlights {
+   
+   .saved-snapshot {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background: $dark-blue;
+      border-radius: 10px;
+      margin: 40px 0;
+      padding: 15px;
+   }
+   
+   h2 {
+      text-align: center;
+      color: $black;
+      background: $aqua;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-top: 0;
+   }
+
+   .display-box {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+   }
+
+   .gif-container img {
+      width: 150px;
+      height: 150px;
+      cursor: default;
+
+      &:hover {
+         border: none;
+      }
+   }
+}

@@ -17,7 +17,7 @@ class App extends Component {
       <Router>
         <main>
           <header>
-            <h1>Out of Context Spoiler</h1>
+            <h1>Out of Context Movie Spoiler</h1>
             <nav>
               <ul>
                 <li>

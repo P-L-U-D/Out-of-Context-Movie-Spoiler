@@ -1,11 +1,14 @@
 .gif-display {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     h2 {
         text-align: center;
         background: $dark-blue;
         color: $light-gray;
         width: 50%;
         margin: 45px auto 0px auto;
-        padding: 15px 0;
+        padding: 15px 30px;
         border-radius: 3px;
     }
 }
@@ -27,6 +30,10 @@
     &:hover {
         border: 2px solid $yellow;
     }
+}
+
+.save-button {
+    margin: 0 auto;
 }
 
 
