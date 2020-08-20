@@ -82,9 +82,6 @@ class GifDisplay extends Component {
             gifs: this.state.gifs
         }
         dbRef.push(savedResult);
-        // this.setState({
-        //    gifChoice: ''
-        // });
     }
 
     // Users can select any individual gif to generate a different one
@@ -103,8 +100,6 @@ class GifDisplay extends Component {
                 tag: chosenGif
             }
         }).then((result) => {
-            console.log(result.data.data);
-
             const funGif = result.data.data
             const newGifsArray = [...this.state.gifs]
             newGifsArray[index] = funGif
@@ -115,11 +110,10 @@ class GifDisplay extends Component {
          });
       }
       //create saved info button 
-      // console.log(this.props.gifTest);
       // API CALL 3: return 3 gifs based of the keywords we get from API 2
       // save gifs and display onto the page
       
-      handleSubmit() {
+      handleSubmit = () => {
           const dbRef = firebase.database().ref('savedResults');
           const savedResult = {
               movieTitle: this.props.movieTitle,
@@ -127,33 +121,29 @@ class GifDisplay extends Component {
             }
             dbRef.push(savedResult);
         }
-        
-        
-        
-        
-        render() {
-            // display 3 GIFS in horizontal line
-            // MAYBE: include keywords that apply to the gift (in a title attribute or label below)
-            // include a back button that returns user to search bar "home page" 
-            return (
-                <Fragment>
-            <div className="wrapper gif-display">
-               <h2>{this.props.movieTitle}</h2>
-               <div className="gif-box">
-                  {this.state.gifs.map(item => {
-                      return (
-                          <div className="gif-container" key={item.id}>
-                           <img src={item.images.fixed_width.url} alt="" />
-                        </div>
-                     )
-                    })}
-                  {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
-               </div>
-            </div>
-            <button onClick= {() => this.handleSubmit(this.state.gifs)}>Save to My Gifs</button>
-            <Highlights />
-         </Fragment>
-      )
+    render() {
+        // display 3 GIFS in horizontal line
+        // MAYBE: include keywords that apply to the gift (in a title attribute or label below)
+        // include a back button that returns user to search bar "home page" 
+        return (
+            <Fragment>
+                <div className="wrapper gif-display">
+                    <h2>{this.props.movieTitle}</h2>
+                    <div className="gif-box">
+                        {this.state.gifs.map((items, index) => {
+                            return (
+                                <div className="gif-container" key={items.id}>
+                                    <img onClick={(event) => this.moreGifs(event, index)} src={items.images.fixed_width.url} data-keyword={this.props.gifWords[index]} alt="" />
+                                </div>
+                            )
+                        })}
+                        {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
+                    </div>
+                </div>
+                <button onClick={this.handleSubmit}>Save to My Gifs</button>
+                <Highlights />
+            </Fragment>
+        )
     }
 }
 
