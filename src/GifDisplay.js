@@ -11,7 +11,7 @@ class GifDisplay extends Component {
       this.state = {
          gifs: [],
          errorMessage: '',
-         gifpicks: []
+         savedResults:[]
       }
    }
    //prevProp access to previous state in relation to this component
@@ -88,26 +88,26 @@ class GifDisplay extends Component {
       // });
    }
    removeSubmission = (gifRemoval) => {
-      const dbRef = firebase.database().ref('savedResults');
+      const dbRef = firebase.database().ref(gifRemoval);
       dbRef.child(gifRemoval).remove();
    }
-   //     gifDatabase = () => {
-   //     const dbRef = firebase.database().ref('savedResults');
-   //     dbRef.on('value', (snapshot) => {
-   //       let savedResults = snapshot.val();
-   //       let newState = [];
-   //       for (let key in savedResults) {
-   //         newState.push({
-   //           id: key,
-   //           movieTitle: savedResults[key].movieTitle,
-   //           gif: savedResults[key].gifs
-   //         });
-   //       }
-   //       this.setState({
-   //         savedResults: newState
-   //       });
-   //     });
-   //   }
+       gifDatabase = () => {
+       const dbRef = firebase.database().ref('savedResults');
+       dbRef.on('value', (snapshot) => {
+         let savedResults = snapshot.val();
+         let newState = [];
+         for (let key in savedResults) {
+           newState.push({
+             id: key,
+             title: savedResults[key].title,
+             userGif: savedResults[key].userGif
+           });
+         }
+         this.setState({
+           savedResults: newState
+         });
+       });
+     }
    render() {
       // display 3 GIFS in horizontal line
       // MAYBE: include keywords that apply to the gift (in a title attribute or label below)
