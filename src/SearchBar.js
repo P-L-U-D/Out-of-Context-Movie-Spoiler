@@ -117,7 +117,7 @@ class SearchBar extends Component {
             })
     }
 
-
+//user enters the name of a movie 
     handleUserInput = (event) => {
         event.preventDefault();
         this.setState({
