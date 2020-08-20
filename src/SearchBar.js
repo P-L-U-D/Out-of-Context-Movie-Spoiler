@@ -5,17 +5,6 @@ import axios from 'axios';
 
 
 
-        
-//         // randomly pick 3 words and save
-//         // wrap calls in async fucnction? use await to get response from API 1 before we call API 2
-//         // on successful return of API 2, pass saved keywords to GifDisplay component & trigger view switch
-
-//         // ERROR CATCH: when user types in empty string, don't submit the call & prompt user to write a word
-//         // ERROR CATCH: if user types in a string that is not a direct match, return closest possible match
-//             // STRETCH GOAL: instead of closest match, return a list of possible matches and allow the user to pick the one they want
-//         // ERROT CATCH: NO NUMBERS! people work the regex magic
-
-
 class SearchBar extends Component {
     constructor() {
         super();
@@ -28,11 +17,13 @@ class SearchBar extends Component {
             keywordResults: [],
             moviedbAPI: 'b588f737df1d6878d6133a1a7e0bface',
             giphyAPI: 'NShPdQTfWnvbvgxLo7Jd7C5qDeFfrsLR',
-            userInput: "", 
+            userInput: "",
             toggleBackups: false,
-            toggleGifDisplay: false
+            toggleGifDisplay: false,
         }
     }
+
+
 
     getMovie = (event) => {
         event.preventDefault();
@@ -51,95 +42,82 @@ class SearchBar extends Component {
                 responseType: `json`,
                 api_key: this.state.moviedbAPI,
                 query: `${this.state.userInput}`,
-                include_adult: 'false',
+                // include_adult: 'false',
                 page: 1
             }
         })
-        .then((res) => {
-            console.log(res)
-            
-            const match = res.data.results.filter((movie) => {
-                return movie.title === this.state.userInput
-
-            }) 
-            //back-up movie options if user's initial input does not exist
-            const backupOptions = res.data.results.filter((movie) => {
-                return movie.popularity > 1
-            })
-            // console.log(match, backupOptions)
-            if (match.length > 1) {
-                const bestMatch = match.filter((movie) => {
-                    return movie.vote_count > 0
-                })
-
-                this.setState({
-                    movieSearch: bestMatch,
-                    toggleGifDisplay: true
-                })
-            } else if (match.length === 1) {
-                this.setState({
-                    movieSearch: match,
-                    toggleGifDisplay: true
-                })
-            } else if (match.length === 0 && backupOptions.length === 0) {
-                this.setState({
-                    errorMessage: 'That doesn\'t seem to be a movie. Why don\'t you try another one?',
-                    movieSearch: [],
-                    keywordSearch: [],
-                    toggleBackups: true
-                })
-            } else {
-                this.setState({
-                    errorMessage: 'Sorry, which movie were you looking for?',
-                    backupOptions,
-                    movieSearch: [],
-                    keywordSearch: [],
-                    toggleBackups: true
-                })
-            }
-            
-            //API call 2, return keywords based on query search from API call 1
-            axios({
-                url: `https://api.themoviedb.org/3/movie/${this.state.movieSearch[0].id}/keywords?`,
-                params: {
-                    api_key: 'b588f737df1d6878d6133a1a7e0bface',
-                }
-            })
             .then((res) => {
-                const words = res.data.keywords.map((data) => {
-                    return data.name
+                console.log(res.data.results);
+
+                const match = res.data.results.filter((movie) => {
+                    return movie.title === this.state.userInput
+
                 })
-                console.log(res)
 
-                // Filtering out bad or generic keywords
-                const approvedWords = words.filter((word) =>
-                    !word.match(
-                        /based|graphic|book|aftercreditsstinger|3d|young|novel|adult|comic|true story|aftercreditsstinger|film|imax|violence|film|musical|director|duringcreditsstinger|avengers|marvel|2d|animation|theme|park|poem|protagonist|prince|princess|woman|man|female|male|disorder|character|relationship/g,
-                    ),
-                )
-
-                if (approvedWords.length === 3) {
+                const backupOptions = res.data.results.filter((movie) => {
+                    return movie.popularity > 10
+                })
+                console.log(match, backupOptions)
+                if (match.length === 1) {
                     this.setState({
-                        userInput: '',
-                        keywordSearch: approvedWords,
-                        keywordResults: words
-                    });
+                        movieSearch: match,
+                        toggleGifDisplay: true
+                    })
+                } else if (match.length === 0 && backupOptions.length === 0) {
+                    this.setState({
+                        errorMessage: 'That doesn\'t seem to be a movie. Why don\'t you try another one?',
+                        movieSearch: [],
+                        keywordSearch: [],
+                        toggleBackups: true
+                    })
                 } else {
-                    const newKeyWords = randomThree(approvedWords);
                     this.setState({
-                        userInput: '',
-                        keywordSearch: newKeyWords,
-                        keywordResults: words
-                    });
+                        errorMessage: 'Sorry, which movie were you looking for?',
+                        backupOptions,
+                        movieSearch: [],
+                        keywordSearch: [],
+                        toggleBackups: true
+                    })
                 }
 
-            }) 
-        }).catch(error => {
-            
-        })
+                //API call 2, return keywords based on query search from API call 1
+                axios({
+                    url: `https://api.themoviedb.org/3/movie/${this.state.movieSearch[0].id}/keywords?`,
+                    params: {
+                        api_key: 'b588f737df1d6878d6133a1a7e0bface',
+                    }
+                })
+                    .then((res) => {
+                        const words = res.data.keywords.map((data) => {
+                            return data.name
+                        })
+
+                        // Filtering out bad or generic keywords
+                        const approvedWords = words.filter((e) => {
+                            const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(film)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)/g
+                            
+                            if (badWords.test(e)) {
+                                return false
+                            } else {
+                                return e
+                            }
+                        })
+                        console.log(approvedWords);
+
+                        const newKeyWords = randomThree(approvedWords);
+
+                        this.setState({
+                            userInput: '',
+                            keywordSearch: newKeyWords,
+                            keywordResults: words
+                        });
+                    })
+            }).catch(error => {
+
+            })
     }
-    
-    //user input function
+
+
     handleUserInput = (event) => {
         event.preventDefault();
         this.setState({
@@ -160,36 +138,41 @@ class SearchBar extends Component {
             movieId: event.target.id,
             movieSearch: chosenMovie,
             userInput: ""
-        }, 
-        () => {
-            //axios call to retrieve keywords from the movieDB api using the movie's id
-            axios({
-                url: `https://api.themoviedb.org/3/movie/${this.state.movieSearch[0].id}/keywords?`,
-                params: {
-                    api_key: 'b588f737df1d6878d6133a1a7e0bface',
-                }
-            })
-            //map out keywords associated with a given movie
-            .then((res) => {
-                const words = res.data.keywords.map((data) => {
-                    return data.name
+        },
+            () => {
+                axios({
+                    url: `https://api.themoviedb.org/3/movie/${this.state.movieSearch[0].id}/keywords?`,
+                    params: {
+                        api_key: 'b588f737df1d6878d6133a1a7e0bface',
+                    }
                 })
+                    .then((res) => {
+                        console.log(res.data.keywords);
+                        const words = res.data.keywords.map((data) => {
+                            return data.name
+                        })
 
-                const approvedWords = words.filter((word) =>
-                    !word.match(
-                        /based|graphic|book|aftercreditsstinger|3d|young|novel|adult|comic|true story|aftercreditsstinger|film|imax|violence|film|musical|director|duringcreditsstinger|avengers|marvel|2d|animation|theme|park|poem|protagonist|prince|princess|woman|man|female|male|disorder|character|relationship/g,
-                    ),
-                )
+                        // Filtering out bad or generic keywords
+                        const approvedWords = words.filter((e) => {
+                            const badWords = /(based)|(graphic)|(book)|(aftercreditsstinger)|(3d)|(young)|(novel)|(adult)|(comic)|(true story)|(aftercreditsstinger)|(film)|(imax)|(violence)|(film)|(musical)|(director)|(duringcreditsstinger)|(avengers)|(marvel)/g
 
-                const newKeyWords = randomThree(approvedWords);
+                            if (badWords.test(e)) {
+                                return false
+                            } else {
+                                return e
+                            }
+                        })
+                        console.log(approvedWords);
 
-                this.setState({
-                    userInput: '',
-                    keywordSearch: newKeyWords,
-                    keywordResults: words
-                })
+                        const newKeyWords = randomThree(approvedWords);
+
+                        this.setState({
+                            userInput: '',
+                            keywordSearch: newKeyWords,
+                            keywordResults: words
+                        })
+                    })
             })
-        })
     }
 
     render() {
@@ -235,8 +218,3 @@ class SearchBar extends Component {
 }
 
 export default SearchBar;
-
-
-
-
-
