@@ -138,8 +138,8 @@ class GifDisplay extends Component {
                         })}
                         {this.state.errorMessage === '' ? null : <p>{this.state.errorMessage}</p>}
                     </div>
+                <button className="save-button" onClick={this.handleSubmit}>Save to My Gifs</button>
                 </div>
-                <button onClick={this.handleSubmit}>Save to My Gifs</button>
             </Fragment>
         )
     }
